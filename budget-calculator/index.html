@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>50/30/20 Budget Calculator — Free & Instant</title><meta name="description" content="Free 50/30/20 budget calculator: split your monthly take-home pay into needs, wants and savings. Adjustable percentages, runs privately in your browser.">
+<link rel="canonical" href="https://tokyo2.github.io/gridleaf/budget-calculator/">
+<meta property="og:title" content="50/30/20 Budget Calculator — Free & Instant"><meta property="og:description" content="Free 50/30/20 budget calculator: split your monthly take-home pay into needs, wants and savings. Adjustable percentages, runs privately in your browser.">
+<meta property="og:type" content="website"><meta property="og:url" content="https://tokyo2.github.io/gridleaf/budget-calculator/">
+<meta property="og:image" content="https://tokyo2.github.io/gridleaf/assets/img/og.png"><meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%235E7F69'/%3E%3Crect x='8' y='8' width='16' height='16' rx='3' fill='none' stroke='%23F7F5F0' stroke-width='3'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="/gridleaf/assets/style.css">
+</head><body>
+<header class="site"><div class="wrap"><a class="logo" href="/gridleaf/"><i></i>Gridleaf</a><nav class="main"><a href="/gridleaf/2027-calendar/">2027 Calendar</a><a href="/gridleaf/debt-payoff-calculator/">Debt payoff</a><a href="/gridleaf/budget-calculator/" class=on>Budget</a><a href="/gridleaf/savings-goal-calculator/">Savings</a><a href="/gridleaf/templates/">Templates</a></nav></div></header>
+<main class="wrap"><section class="hero"><span class="tag">Free calculator</span><h1>50/30/20 Budget Calculator</h1>
+<p class="lead">Type your monthly take-home pay. We'll split it into needs, wants and savings — and you can change the percentages to fit your life.</p></section>
+<section class="card grid g2"><div><label for="inc">Monthly take-home pay (after tax)</label><input id="inc" type="number" min="0" step="any" value="4200">
+<div class="grid g3" style="gap:10px;grid-template-columns:repeat(3,1fr)"><div><label for="pn">Needs %</label><input id="pn" type="number" value="50"></div>
+<div><label for="pw">Wants %</label><input id="pw" type="number" value="30"></div><div><label for="ps">Savings %</label><input id="ps" type="number" value="20"></div></div>
+<p id="warn" class="note" style="color:#B0413E"></p></div><div id="out"></div></section>
+<section><h2>What is the 50/30/20 rule?</h2><p>The 50/30/20 rule is a simple starting point for a budget: about half of your after-tax income goes to things you must pay (needs), 30% to things you choose (wants), and 20% to your future — savings, investing and paying down debt faster. If your rent is high, a 60/20/20 or 70/20/10 split can be more realistic. The point is to give every dollar a job.</p>
+<p>Once you know your targets, track what you actually spend for a month. That's where a simple spreadsheet helps: you'll see category by category whether you're on plan.</p></section>
+<div class="card grid g2" style="align-items:center;margin-top:36px">
+<img src="/gridleaf/assets/img/budget-cover.webp" alt="Budget planner spreadsheet dashboard" loading="lazy" width="1280" height="720" class="shot">
+<div><span class="tag">Premium template</span><h3>Budget Planner 2027 spreadsheet</h3>
+<p>Excel &amp; Google Sheets: transaction log, monthly dashboard with charts, bills, savings goals and a debt payoff planner.</p>
+<div class="btns"><a class="btn alt" href="/gridleaf/budget-spreadsheet/">See the spreadsheet</a></div></div></div></main>
+<footer class="site"><div class="wrap"><span>© 2026–2027 Gridleaf Studio · Free printables &amp; money tools</span>
+<span><a href="/gridleaf/2027-calendar/">2027 calendar</a> · <a href="/gridleaf/debt-payoff-calculator/">Debt payoff calculator</a> ·
+<a href="/gridleaf/budget-calculator/">50/30/20 calculator</a> · <a href="/gridleaf/savings-goal-calculator/">Savings goal calculator</a></span>
+</div><div class="wrap note">Calculators are for education and planning, not financial advice. Nothing you type is sent anywhere — everything runs in your browser.</div></footer>
+<script>
+const $=s=>document.querySelector(s);const fmt=v=>v.toLocaleString(undefined,{maximumFractionDigits:0});
+function calc(){const inc=+$('#inc').value||0;let n=+$('#pn').value||0,w=+$('#pw').value||0,s=+$('#ps').value||0;
+const tot=n+w+s;$('#warn').textContent=tot!==100?`Your split adds up to ${tot}% — adjust it to 100%.`:'';
+const rows=[['Needs','Rent, utilities, groceries, insurance, minimum debt payments',n],['Wants','Dining out, hobbies, shopping, subscriptions, travel',w],['Savings & debt','Emergency fund, investing, extra debt payments',s]];
+$('#out').innerHTML=rows.map(([a,b,p])=>`<div style="margin:14px 0"><div style="display:flex;justify-content:space-between"><b>${a} · ${p}%</b><b>${fmt(inc*p/100)} / month</b></div>
+<div class=bar><i style="width:${Math.min(100,p)}%"></i></div><div class=note>${b} · ${fmt(inc*p/100*12)} / year</div></div>`).join('')}
+document.querySelectorAll('input').forEach(i=>i.oninput=calc);calc();
+</script></body></html>

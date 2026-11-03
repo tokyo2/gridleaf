@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Savings Goal Calculator — How Much to Save per Month</title><meta name="description" content="Free savings goal calculator: find out how much to save per month or week to reach your goal by a date, with optional interest. Private, no sign-up.">
+<link rel="canonical" href="https://tokyo2.github.io/gridleaf/savings-goal-calculator/">
+<meta property="og:title" content="Savings Goal Calculator — How Much to Save per Month"><meta property="og:description" content="Free savings goal calculator: find out how much to save per month or week to reach your goal by a date, with optional interest. Private, no sign-up.">
+<meta property="og:type" content="website"><meta property="og:url" content="https://tokyo2.github.io/gridleaf/savings-goal-calculator/">
+<meta property="og:image" content="https://tokyo2.github.io/gridleaf/assets/img/og.png"><meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%235E7F69'/%3E%3Crect x='8' y='8' width='16' height='16' rx='3' fill='none' stroke='%23F7F5F0' stroke-width='3'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="/gridleaf/assets/style.css">
+</head><body>
+<header class="site"><div class="wrap"><a class="logo" href="/gridleaf/"><i></i>Gridleaf</a><nav class="main"><a href="/gridleaf/2027-calendar/">2027 Calendar</a><a href="/gridleaf/debt-payoff-calculator/">Debt payoff</a><a href="/gridleaf/budget-calculator/">Budget</a><a href="/gridleaf/savings-goal-calculator/" class=on>Savings</a><a href="/gridleaf/templates/">Templates</a></nav></div></header>
+<main class="wrap"><section class="hero"><span class="tag">Free calculator</span><h1>Savings Goal Calculator</h1>
+<p class="lead">How much do you need to put aside each month to reach a goal — an emergency fund, a trip, a house deposit — by a certain date?</p></section>
+<section class="card grid g2"><div><label for="goal">Savings goal</label><input id="goal" type="number" min="0" step="any" value="10000">
+<label for="have">Already saved</label><input id="have" type="number" min="0" step="any" value="1500">
+<label for="months">Months to reach it</label><input id="months" type="number" min="1" step="1" value="18">
+<label for="rate">Interest rate on savings (APY %, optional)</label><input id="rate" type="number" min="0" step="any" value="4"></div>
+<div id="out"></div></section>
+<section><h2>Tips for reaching a savings goal</h2><ul class="feat"><li>Automate a transfer on payday so the money moves before you can spend it.</li>
+<li>Keep goal money in a separate high-yield savings account.</li><li>Round up: saving a little more than the calculated amount gives you a buffer for missed months.</li>
+<li>Track progress visually — a filled bar is surprisingly motivating.</li></ul></section>
+<div class="card grid g2" style="align-items:center;margin-top:36px">
+<img src="/gridleaf/assets/img/budget-cover.webp" alt="Budget planner spreadsheet dashboard" loading="lazy" width="1280" height="720" class="shot">
+<div><span class="tag">Premium template</span><h3>Budget Planner 2027 spreadsheet</h3>
+<p>Excel &amp; Google Sheets: transaction log, monthly dashboard with charts, bills, savings goals and a debt payoff planner.</p>
+<div class="btns"><a class="btn alt" href="/gridleaf/budget-spreadsheet/">See the spreadsheet</a></div></div></div></main>
+<footer class="site"><div class="wrap"><span>© 2026–2027 Gridleaf Studio · Free printables &amp; money tools</span>
+<span><a href="/gridleaf/2027-calendar/">2027 calendar</a> · <a href="/gridleaf/debt-payoff-calculator/">Debt payoff calculator</a> ·
+<a href="/gridleaf/budget-calculator/">50/30/20 calculator</a> · <a href="/gridleaf/savings-goal-calculator/">Savings goal calculator</a></span>
+</div><div class="wrap note">Calculators are for education and planning, not financial advice. Nothing you type is sent anywhere — everything runs in your browser.</div></footer>
+<script>
+const $=s=>document.querySelector(s);const fmt=v=>v.toLocaleString(undefined,{maximumFractionDigits:0});
+function calc(){const goal=+$('#goal').value||0,have=+$('#have').value||0,months=Math.max(1,Math.round(+$('#months').value||1)),r=(+$('#rate').value||0)/100/12;
+const fvHave=have*Math.pow(1+r,months);const need=Math.max(0,goal-fvHave);
+const pmt=r>0?need*r/(Math.pow(1+r,months)-1):need/months;const contrib=pmt*months;const interest=goal-have-contrib;
+$('#out').innerHTML=`<div class=kpis><div class=kpi><span>Save each month</span><b>${fmt(pmt)}</b></div><div class=kpi><span>Save each week</span><b>${fmt(pmt*12/52)}</b></div>
+<div class=kpi><span>You'll contribute</span><b>${fmt(contrib)}</b></div><div class=kpi><span>Interest earned</span><b>${fmt(Math.max(0,interest))}</b></div></div>
+${need<=0?'<p><b>Good news:</b> what you have already gets you there.</p>':''}`}
+document.querySelectorAll('input').forEach(i=>i.oninput=calc);calc();
+</script></body></html>

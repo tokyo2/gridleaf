@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Debt Payoff Calculator — Snowball vs Avalanche (Free, Private)</title><meta name="description" content="Free debt payoff calculator: compare the snowball and avalanche methods, see your debt-free date, payoff order and total interest. Runs in your browser.">
+<link rel="canonical" href="https://tokyo2.github.io/gridleaf/debt-payoff-calculator/">
+<meta property="og:title" content="Debt Payoff Calculator — Snowball vs Avalanche (Free, Private)"><meta property="og:description" content="Free debt payoff calculator: compare the snowball and avalanche methods, see your debt-free date, payoff order and total interest. Runs in your browser.">
+<meta property="og:type" content="website"><meta property="og:url" content="https://tokyo2.github.io/gridleaf/debt-payoff-calculator/">
+<meta property="og:image" content="https://tokyo2.github.io/gridleaf/assets/img/og.png"><meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%235E7F69'/%3E%3Crect x='8' y='8' width='16' height='16' rx='3' fill='none' stroke='%23F7F5F0' stroke-width='3'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="/gridleaf/assets/style.css"><script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is the debt snowball method?", "acceptedAnswer": {"@type": "Answer", "text": "You pay the minimum on every debt and throw every extra dollar at the smallest balance. When it's gone, its payment rolls into the next smallest. Quick wins keep you motivated."}}, {"@type": "Question", "name": "What is the debt avalanche method?", "acceptedAnswer": {"@type": "Answer", "text": "Same idea, but you target the debt with the highest interest rate first. It always costs the same or less in interest than the snowball."}}, {"@type": "Question", "name": "Which method is better?", "acceptedAnswer": {"@type": "Answer", "text": "Avalanche is mathematically cheaper; snowball is often easier to stick with. The calculator shows exactly how much the difference is for your debts \u2014 often it's small, so pick the one you'll actually follow."}}, {"@type": "Question", "name": "Does this calculator store my data?", "acceptedAnswer": {"@type": "Answer", "text": "No. Everything is calculated in your browser; nothing is sent or saved."}}]}</script>
+</head><body>
+<header class="site"><div class="wrap"><a class="logo" href="/gridleaf/"><i></i>Gridleaf</a><nav class="main"><a href="/gridleaf/2027-calendar/">2027 Calendar</a><a href="/gridleaf/debt-payoff-calculator/" class=on>Debt payoff</a><a href="/gridleaf/budget-calculator/">Budget</a><a href="/gridleaf/savings-goal-calculator/">Savings</a><a href="/gridleaf/templates/">Templates</a></nav></div></header>
+<main class="wrap"><section class="hero"><span class="tag">Free calculator</span><h1>Debt Payoff Calculator: Snowball vs Avalanche</h1>
+<p class="lead">Enter your debts and any extra you can pay each month. See your debt-free date, total interest, and the payoff order for both methods.</p></section>
+<section class="card"><div class="debts" id="rows"></div>
+<div class="btns"><button class="btn alt" id="add" type="button">+ Add debt</button></div>
+<label for="extra">Extra payment per month (on top of minimums)</label><input id="extra" type="number" min="0" step="any" value="200" style="max-width:260px">
+<div id="out" style="margin-top:20px"></div></section>
+<section class="faq"><h2>How it works</h2><details><summary>What is the debt snowball method?</summary><p>You pay the minimum on every debt and throw every extra dollar at the smallest balance. When it's gone, its payment rolls into the next smallest. Quick wins keep you motivated.</p></details><details><summary>What is the debt avalanche method?</summary><p>Same idea, but you target the debt with the highest interest rate first. It always costs the same or less in interest than the snowball.</p></details><details><summary>Which method is better?</summary><p>Avalanche is mathematically cheaper; snowball is often easier to stick with. The calculator shows exactly how much the difference is for your debts — often it's small, so pick the one you'll actually follow.</p></details><details><summary>Does this calculator store my data?</summary><p>No. Everything is calculated in your browser; nothing is sent or saved.</p></details></section>
+<div class="card grid g2" style="align-items:center;margin-top:36px">
+<img src="/gridleaf/assets/img/budget-cover.webp" alt="Budget planner spreadsheet dashboard" loading="lazy" width="1280" height="720" class="shot">
+<div><span class="tag">Premium template</span><h3>Budget Planner 2027 spreadsheet</h3>
+<p>Excel &amp; Google Sheets: transaction log, monthly dashboard with charts, bills, savings goals and a debt payoff planner.</p>
+<div class="btns"><a class="btn alt" href="/gridleaf/budget-spreadsheet/">See the spreadsheet</a></div></div></div></main>
+<footer class="site"><div class="wrap"><span>© 2026–2027 Gridleaf Studio · Free printables &amp; money tools</span>
+<span><a href="/gridleaf/2027-calendar/">2027 calendar</a> · <a href="/gridleaf/debt-payoff-calculator/">Debt payoff calculator</a> ·
+<a href="/gridleaf/budget-calculator/">50/30/20 calculator</a> · <a href="/gridleaf/savings-goal-calculator/">Savings goal calculator</a></span>
+</div><div class="wrap note">Calculators are for education and planning, not financial advice. Nothing you type is sent anywhere — everything runs in your browser.</div></footer>
+<script>
+const $=s=>document.querySelector(s);const fmt=v=>v.toLocaleString(undefined,{maximumFractionDigits:0});
+const rows=$('#rows');
+function addRow(n='',b='',a='',m=''){const d=document.createElement('div');d.className='row';
+d.innerHTML=`<div><label>Debt name</label><input class=n value="${n}" placeholder="Credit card"></div>
+<div><label>Balance</label><input class=b type=number min=0 step=any value="${b}"></div>
+<div><label>APR %</label><input class=a type=number min=0 step=any value="${a}"></div>
+<div><label>Min. payment</label><input class=m type=number min=0 step=any value="${m}"></div>
+<button type=button title="Remove" aria-label="Remove debt">×</button>`;
+d.querySelector('button').onclick=()=>{d.remove();calc()};d.querySelectorAll('input').forEach(i=>i.oninput=calc);rows.appendChild(d)}
+function read(){return [...rows.children].map(r=>({name:r.querySelector('.n').value||'Debt',bal:+r.querySelector('.b').value||0,
+apr:(+r.querySelector('.a').value||0)/100,min:+r.querySelector('.m').value||0})).filter(d=>d.bal>0)}
+function sim(debts,extra,order){debts=debts.map(d=>({...d}));const budget=debts.reduce((s,d)=>s+d.min,0)+extra;
+let month=0,interest=0;const done={};
+while(debts.some(d=>d.bal>0.005)&&month<600){month++;
+ debts.forEach(d=>{if(d.bal>0){const i=d.bal*d.apr/12;d.bal+=i;interest+=i}});
+ let left=budget;debts.forEach(d=>{if(d.bal>0){const p=Math.min(d.bal,d.min);d.bal-=p;left-=p}});
+ const targets=debts.filter(d=>d.bal>0.005).sort(order);
+ for(const d of targets){if(left<=0)break;const p=Math.min(d.bal,left);d.bal-=p;left-=p}
+ debts.forEach(d=>{if(d.bal<=0.005&&!(d.name in done)){d.bal=0;done[d.name]=month}})}
+return {months:month,interest,done,ok:month<600}}
+function when(m){const d=new Date();d.setMonth(d.getMonth()+m);return d.toLocaleDateString(undefined,{month:'long',year:'numeric'})}
+function calc(){const debts=read();const extra=+$('#extra').value||0;const out=$('#out');
+if(!debts.length){out.innerHTML='<p class=note>Add at least one debt with a balance.</p>';return}
+const sb=sim(debts,extra,(a,b)=>a.bal-b.bal), av=sim(debts,extra,(a,b)=>b.apr-a.apr), mn=sim(debts,0,(a,b)=>a.bal-b.bal);
+if(!sb.ok){out.innerHTML='<p><b>Your payments don\'t cover the interest.</b> Increase minimum or extra payments to make progress.</p>';return}
+const save=Math.abs(av.interest-sb.interest);const cmp=save<1?'For these debts both methods cost the same.':`<b>Avalanche</b> saves you <b>${fmt(save)}</b> in interest vs snowball.`;
+const order=(r)=>Object.entries(r.done).sort((a,b)=>a[1]-b[1]).map(([n,m])=>`<tr><td>${n}</td><td class=n>${m} mo</td><td class=n>${when(m)}</td></tr>`).join('');
+out.innerHTML=`<div class=kpis><div class=kpi><span>Debt-free in</span><b>${Math.floor(av.months/12)}y ${av.months%12}m</b></div>
+<div class=kpi><span>Debt-free by</span><b>${when(av.months)}</b></div>
+<div class=kpi><span>Interest (avalanche)</span><b>${fmt(av.interest)}</b></div><div class=kpi><span>Interest (snowball)</span><b>${fmt(sb.interest)}</b></div></div>
+<p>${cmp} ${extra>0&&mn.ok?`Your extra ${fmt(extra)}/month saves <b>${fmt(mn.interest-av.interest)}</b> in interest and <b>${mn.months-av.months} months</b> compared with minimum payments only.`:''}</p>
+<div class="grid g2"><div><h3>Avalanche order</h3><p class=note>Highest interest rate first — cheapest overall.</p><table><thead><tr><th>Debt</th><th class=n>Paid off</th><th class=n>Date</th></tr></thead><tbody>${order(av)}</tbody></table></div>
+<div><h3>Snowball order</h3><p class=note>Smallest balance first — quick wins.</p><table><thead><tr><th>Debt</th><th class=n>Paid off</th><th class=n>Date</th></tr></thead><tbody>${order(sb)}</tbody></table></div></div>`}
+$('#add').onclick=()=>addRow();$('#extra').oninput=calc;
+addRow('Credit card',3200,24.9,90);addRow('Store card',850,19.9,30);addRow('Car loan',9400,6.9,240);calc();
+</script></body></html>
