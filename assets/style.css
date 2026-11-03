@@ -55,4 +55,10 @@ td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
 .feat{list-style:none;padding:0;margin:0}.feat li{padding:8px 0 8px 30px;position:relative;border-bottom:1px solid var(--line)}
 .feat li:before{content:"";position:absolute;left:4px;top:15px;width:12px;height:7px;border-left:2px solid var(--accent);border-bottom:2px solid var(--accent);transform:rotate(-45deg)}
 .price{font-family:"DM Serif Display",Georgia,serif;font-size:40px}.price s{font-size:22px;color:var(--muted);margin-left:8px}
+.bigcal{padding:12px;overflow-x:auto}.bigcal table{table-layout:fixed;min-width:560px}
+.bigcal th{text-align:center;padding:6px 2px}.bigcal td{vertical-align:top;height:86px;border:1px solid var(--line);padding:6px 7px;font-size:13px}
+.bigcal td b{display:block;font-weight:600;font-size:15px}.bigcal td.we b{color:var(--accent)}.bigcal td.out{background:var(--bg)}
+.bigcal small{display:block;font-size:11px;line-height:1.3;color:var(--accent);margin-top:3px}
+@media (max-width:640px){.bigcal{padding:6px}.bigcal table{min-width:0}.bigcal th{font-size:10px;padding:4px 0}
+.bigcal td{height:58px;padding:3px;font-size:11px}.bigcal td b{font-size:13px}.bigcal small{font-size:8.5px;overflow-wrap:anywhere}}
 @media print{header.site,footer.site,.noprint{display:none}}
