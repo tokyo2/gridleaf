@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#F4F1EA">
+<title>Leaf Link</title>
+<style>
+:root{--bg:#F4F1EA;--ink:#22302A;--muted:#55635A;--sage:#4E7A5E;--sage-d:#3B6149;--soft:#E3EBE0;--card:#FFFFFF;--clay:#C26E48;--line:#DDD6C8}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;overflow:hidden;-webkit-tap-highlight-color:transparent;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+#app{position:fixed;inset:0;display:flex;flex-direction:column}
+#hud{display:flex;align-items:center;gap:8px;padding:10px 12px;padding-top:max(10px,env(safe-area-inset-top));min-height:58px}
+#hud .info{flex:1;text-align:center;line-height:1.15}
+#hud .info b{display:block;font-size:18px}
+#hud .info span{font-size:13px;color:var(--muted)}
+.ib{min-width:44px;height:44px;border:0;border-radius:14px;background:var(--card);color:var(--ink);font-size:15px;font-weight:600;cursor:pointer;box-shadow:0 2px 8px rgba(34,48,42,.10);padding:0 12px}
+.ib:hover{background:#FAF8F3}
+#stage{flex:1;position:relative;min-height:0}
+canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none}
+.screen{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(244,241,234,.9);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);z-index:20;padding:16px}
+.screen.on{display:flex}
+.panel{background:var(--card);border-radius:24px;box-shadow:0 20px 60px rgba(34,48,42,.18);padding:26px 22px;width:min(100%,420px);max-height:100%;overflow:auto;text-align:center}
+.panel.wide{width:min(100%,560px)}
+h1{font-size:44px;margin:4px 0 4px;letter-spacing:-1px}
+h2{font-size:28px;margin:0 0 10px}
+p{color:var(--muted);line-height:1.5;margin:8px 0}
+.btn{display:block;width:100%;margin:10px 0;padding:14px 18px;font-size:18px;font-weight:700;border:0;border-radius:999px;background:var(--sage);color:#fff;cursor:pointer}
+.btn:hover{background:var(--sage-d)}
+.btn.alt{background:var(--soft);color:var(--ink)}
+.btn.alt:hover{background:#D6E2D2}
+button:focus-visible{outline:3px solid #173F28;outline-offset:2px}
+.logo{width:86px;height:86px;margin:0 auto 6px;display:block}
+.how{text-align:left;margin:6px 0 12px;padding-left:20px;color:var(--ink);line-height:1.6}
+.stars{font-size:44px;letter-spacing:6px;color:#D9A441;margin:6px 0}
+.stars .off{color:#D8D2C4}
+#grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:12px 0}
+#grid button{aspect-ratio:1;border:0;border-radius:14px;background:var(--soft);color:var(--ink);font-weight:700;font-size:16px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+#grid button small{font-size:10px;color:#C08A2E;letter-spacing:1px}
+#grid button[disabled]{background:#EFEBE3;color:#A9A397;cursor:not-allowed}
+#grid button.cur{outline:3px solid var(--sage)}
+#selftest{position:fixed;left:8px;bottom:8px;right:8px;max-height:45vh;overflow:auto;background:#fff;border-radius:12px;padding:10px;font:12px/1.4 ui-monospace,Consolas,monospace;z-index:50;box-shadow:0 4px 20px rgba(0,0,0,.2);white-space:pre-wrap}
+body.cover #stage{transform:translateX(17vw)}
+#badge{position:fixed;left:4%;top:8%;z-index:30;display:none;background:rgba(255,255,255,.92);border-radius:28px;padding:26px 34px;box-shadow:0 20px 60px rgba(34,48,42,.2)}
+#badge h1{font-size:84px;margin:0}
+#badge p{font-size:26px;margin:4px 0 0;color:var(--muted)}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="hud">
+    <button class="ib" id="bLevels" aria-label="Level select">Levels</button>
+    <div class="info"><b id="hLevel">Level 1</b><span id="hMoves">Moves 0 · Par 0</span></div>
+    <button class="ib" id="bRestart" aria-label="Restart level">↺</button>
+    <button class="ib" id="bPause" aria-label="Pause">II</button>
+  </div>
+  <div id="stage"><canvas id="cv" aria-label="Puzzle board"></canvas></div>
+</div>
+
+<div class="screen on" id="sTitle"><div class="panel">
+  <svg class="logo" viewBox="0 0 100 100" aria-hidden="true"><rect x="4" y="4" width="92" height="92" rx="24" fill="#E3EBE0"/><path d="M50 78 V50 M50 50 H74 M50 50 C50 36 40 30 30 30" stroke="#3B6149" stroke-width="9" fill="none" stroke-linecap="round"/><circle cx="50" cy="80" r="11" fill="#C26E48"/><circle cx="76" cy="50" r="8" fill="#E58FA0"/><circle cx="28" cy="30" r="8" fill="#E8B04A"/></svg>
+  <h1>Leaf Link</h1>
+  <p>Turn the tiles so every vine grows from the root to a flower.</p>
+  <button class="btn" id="bPlay">Play</button>
+  <button class="btn alt" id="bLevels2">Levels</button>
+  <button class="btn alt" id="bHow">How to play</button>
+  <button class="btn alt" id="bSound">Sound: On</button>
+</div></div>
+
+<div class="screen" id="sHow"><div class="panel">
+  <h2>How to play</h2>
+  <ul class="how">
+    <li>The clay pot is the <b>root</b>. Vines grow from it.</li>
+    <li><b>Tap a tile</b> to turn it clockwise. Right-click (or press X) turns it the other way.</li>
+    <li>Connect <b>every tile</b> to the root with no loose vine ends. Buds bloom when they're linked.</li>
+    <li>Finish within <b>par</b> moves for three stars.</li>
+    <li>Keyboard: arrows to move, Space to turn, X to turn back, R to restart, P to pause.</li>
+  </ul>
+  <button class="btn" id="bHowOk">Got it</button>
+</div></div>
+
+<div class="screen" id="sLevels"><div class="panel wide">
+  <h2>Choose a level</h2>
+  <div id="grid"></div>
+  <button class="btn alt" id="bLevelsBack">Back</button>
+</div></div>
+
+<div class="screen" id="sPause"><div class="panel">
+  <h2>Paused</h2>
+  <button class="btn" id="bResume">Resume</button>
+  <button class="btn alt" id="bRestart2">Restart level</button>
+  <button class="btn alt" id="bLevels3">Levels</button>
+  <button class="btn alt" id="bSound2">Sound: On</button>
+  <button class="btn alt" id="bHome">Title screen</button>
+</div></div>
+
+<div class="screen" id="sWin"><div class="panel">
+  <h2 id="wTitle">Level complete!</h2>
+  <div class="stars" id="wStars"></div>
+  <p id="wInfo"></p>
+  <button class="btn" id="bNext">Next level</button>
+  <button class="btn alt" id="bReplay">Replay</button>
+  <button class="btn alt" id="bLevels4">Levels</button>
+</div></div>
+
+<div id="badge"><h1>Leaf Link</h1><p>Grow the vine · 120 calm puzzles</p></div>
+
+<script>
+(function(){
+'use strict';
+const qs=new URLSearchParams(location.search);
+const $=s=>document.querySelector(s);
+const KEY='leaflink.v1.';
+const store={get(k,d){try{const v=localStorage.getItem(KEY+k);return v===null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(KEY+k,JSON.stringify(v))}catch(e){}}};
+
+/* ---------------- puzzle model ---------------- */
+function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const N=1,E=2,S=4,W=8;
+const DIRS=[[0,-1,N,S],[1,0,E,W],[0,1,S,N],[-1,0,W,E]];
+const rotCW=m=>((m<<1)|(m>>3))&15;
+const rotCCW=m=>((m>>1)|((m&1)<<3))&15;
+const pop=m=>(m&1)+(m>>1&1)+(m>>2&1)+(m>>3&1);
+const LEVELS=120;
+
+function params(n){const size=Math.min(8,3+Math.floor(Math.sqrt(n)*0.5));const hf=n<18?0:Math.min(0.16,(n-18)/560);return{w:size,h:size,holes:Math.round(size*size*hf)}}
+
+function openConnected(w,h,hole){
+  let start=-1;for(let i=0;i<w*h;i++)if(!hole[i]){start=i;break}
+  if(start<0)return false;
+  const seen=new Uint8Array(w*h),q=[start];seen[start]=1;let c=1;
+  while(q.length){const i=q.pop(),x=i%w,y=(i/w)|0;
+    for(const[dx,dy]of DIRS){const nx=x+dx,ny=y+dy;if(nx<0||ny<0||nx>=w||ny>=h)continue;const j=ny*w+nx;if(hole[j]||seen[j])continue;seen[j]=1;c++;q.push(j)}}
+  let open=0;for(let i=0;i<w*h;i++)if(!hole[i])open++;
+  return c===open;
+}
+
+function linkInfo(L,st){
+  const{w,h,hole,root}=L,conn=new Uint8Array(w*h),q=[root];conn[root]=1;
+  while(q.length){const i=q.pop(),x=i%w,y=(i/w)|0;
+    for(const[dx,dy,b,ob]of DIRS){if(!(st[i]&b))continue;const nx=x+dx,ny=y+dy;if(nx<0||ny<0||nx>=w||ny>=h)continue;
+      const j=ny*w+nx;if(hole[j]||conn[j])continue;if(st[j]&ob){conn[j]=1;q.push(j)}}}
+  return conn;
+}
+function isSolved(L,st){
+  const{w,h,hole,open}=L;
+  for(const i of open){const x=i%w,y=(i/w)|0;
+    for(const[dx,dy,b,ob]of DIRS){if(!(st[i]&b))continue;const nx=x+dx,ny=y+dy;
+      if(nx<0||ny<0||nx>=w||ny>=h)return false;const j=ny*w+nx;if(hole[j]||!(st[j]&ob))return false}}
+  const c=linkInfo(L,st);for(const i of open)if(!c[i])return false;return true;
+}
+function parOf(L,st){let s=0;for(const i of L.open){let m=st[i],k=0;while(m!==L.sol[i]&&k<4){m=rotCW(m);k++}s+=Math.min(k,4-k)}return s}
+
+function generate(n){
+  const p=params(n),R=mulberry(n*7919+101),w=p.w,h=p.h,cells=w*h;
+  for(let attempt=0;attempt<400;attempt++){
+    const hole=new Array(cells).fill(false);let placed=0,tries=0;
+    while(placed<p.holes&&tries<400){tries++;const i=Math.floor(R()*cells);if(hole[i])continue;hole[i]=true;if(!openConnected(w,h,hole)){hole[i]=false;continue}placed++}
+    const open=[];for(let i=0;i<cells;i++)if(!hole[i])open.push(i);
+    const root=open[Math.floor(R()*open.length)];
+    const sol=new Array(cells).fill(0),inT=new Uint8Array(cells);inT[root]=1;
+    const fr=[];
+    const addF=i=>{const x=i%w,y=(i/w)|0;for(const[dx,dy,b,ob]of DIRS){const nx=x+dx,ny=y+dy;if(nx<0||ny<0||nx>=w||ny>=h)continue;const j=ny*w+nx;if(hole[j]||inT[j])continue;fr.push([i,j,b,ob])}};
+    addF(root);let count=1;
+    while(fr.length){const k=Math.floor(R()*fr.length),e=fr[k];fr[k]=fr[fr.length-1];fr.pop();
+      const[i,j,b,ob]=e;if(inT[j])continue;
+      if(pop(sol[i])>=3&&R()<0.9&&fr.length>0)continue;
+      sol[i]|=b;sol[j]|=ob;inT[j]=1;count++;addF(j)}
+    if(count!==open.length)continue;
+    const state=sol.slice();
+    for(const i of open){const k=Math.floor(R()*4);for(let t=0;t<k;t++)state[i]=rotCW(state[i])}
+    const L={n,w,h,hole,root,sol,state,open};
+    let off=0,rot=0;for(const i of open){const m=sol[i];if(m===15)continue;rot++;if(state[i]!==m)off++}
+    if(isSolved(L,state)||off<Math.max(1,Math.floor(rot*0.5)))continue;
+    L.par=parOf(L,state);
+    if(L.par<2)continue;
+    return L;
+  }
+  throw new Error('generation failed for level '+n);
+}
+
+/* ---------------- self-test ---------------- */
+function selfTest(){
+  const out=[];let ok=0;const t0=performance.now();
+  for(let n=1;n<=LEVELS;n++){
+    try{
+      const L=generate(n),L2=generate(n);
+      const errs=[];
+      if(L.state.join()!==L2.state.join())errs.push('not deterministic');
+      // spanning tree: edges = open-1, symmetric masks
+      let bits=0;for(const i of L.open)bits+=pop(L.sol[i]);
+      if(bits!==2*(L.open.length-1))errs.push('edge count');
+      if(!isSolved(L,L.sol))errs.push('solution not solved');
+      if(isSolved(L,L.state))errs.push('scramble already solved');
+      // every scrambled tile is a rotation of the solution
+      for(const i of L.open){let m=L.state[i],k=0;while(m!==L.sol[i]&&k<4){m=rotCW(m);k++}if(k===4){errs.push('bad rotation');break}}
+      // replay par moves reaches solution
+      const st=L.state.slice();let moves=0;
+      for(const i of L.open){let k=0,m=st[i];while(m!==L.sol[i]){m=rotCW(m);k++}
+        if(k<=2){for(let t=0;t<k;t++){st[i]=rotCW(st[i]);moves++}}else{st[i]=rotCCW(st[i]);moves++}}
+      if(!isSolved(L,st))errs.push('replay failed');
+      if(moves!==L.par)errs.push('par mismatch '+moves+'/'+L.par);
+      if(errs.length)out.push('Level '+n+': '+errs.join(', '));else ok++;
+    }catch(e){out.push('Level '+n+': '+e.message)}
+  }
+  const ms=Math.round(performance.now()-t0);
+  const head='Leaf Link self-test: '+ok+'/'+LEVELS+' levels OK ('+ms+' ms)';
+  const el=document.createElement('div');el.id='selftest';el.textContent=head+(out.length?'\n'+out.join('\n'):'\nAll levels: spanning tree, solvable, deterministic, scrambled, par replay verified.');
+  document.body.appendChild(el);document.title=head;
+}
+
+/* ---------------- sound ---------------- */
+let muted=store.get('muted',false),ac=null;
+function audio(){if(muted)return null;try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume()}catch(e){ac=null}return ac}
+function tone(f,d,type,vol,when){const a=audio();if(!a)return;const t=a.currentTime+(when||0),o=a.createOscillator(),g=a.createGain();o.type=type||'sine';o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(vol||0.12,t+0.01);g.gain.exponentialRampToValueAtTime(0.0001,t+d);o.connect(g).connect(a.destination);o.start(t);o.stop(t+d+0.02)}
+const sfx={tick(){tone(520,0.07,'triangle',0.07)},bloom(){tone(784,0.18,'sine',0.09);tone(1047,0.22,'sine',0.06,0.06)},win(){[523,659,784,1047].forEach((f,i)=>tone(f,0.3,'sine',0.1,i*0.11))}};
+function setMuted(m){muted=m;store.set('muted',m);const t='Sound: '+(m?'Off':'On');$('#bSound').textContent=t;$('#bSound2').textContent=t}
+
+/* ---------------- game state ---------------- */
+const cv=$('#cv'),ctx=cv.getContext('2d');
+let dpr=1,CW=0,CH=0,lay={x:0,y:0,cs:40};
+let cur=null,st=null,moves=0,won=false,anim=null,conn=null,cursor=0,kbd=false,paused=true,parts=[],bloomT=null;
+let progress=store.get('progress',{});   // {level: stars}
+const maxUnlocked=()=>{let m=1;for(const k in progress)m=Math.max(m,+k+1);return Math.min(LEVELS,m)};
+
+function screen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id));paused=!!id}
+function loadLevel(n){
+  cur=generate(n);st=cur.state.slice();moves=0;won=false;
+  anim=new Float32Array(cur.w*cur.h);bloomT=new Float32Array(cur.w*cur.h);
+  conn=linkInfo(cur,st);for(const i of cur.open)if(conn[i])bloomT[i]=1;
+  cursor=cur.root;parts=[];store.set('last',n);resize();hud();
+}
+function hud(){$('#hLevel').textContent='Level '+cur.n;$('#hMoves').textContent='Moves '+moves+' · Par '+cur.par}
+function starsFor(m,par){return m<=par?3:m<=Math.ceil(par*1.5)+2?2:1}
+function leavesOn(){let c=0;for(const i of cur.open)if(conn[i]&&pop(st[i])===1&&i!==cur.root)c++;return c}
+
+function rotate(i,dir){
+  if(won||paused||!cur||cur.hole[i])return;const m=st[i];if(m===0||m===15)return;
+  const before=leavesOn();
+  st[i]=dir>0?rotCW(m):rotCCW(m);anim[i]+=dir>0?-Math.PI/2:Math.PI/2;moves++;
+  conn=linkInfo(cur,st);
+  const after=leavesOn();if(after>before)sfx.bloom();else sfx.tick();
+  hud();
+  if(isSolved(cur,st)){won=true;onWin()}
+}
+function onWin(){
+  const stars=starsFor(moves,cur.par);
+  if(!progress[cur.n]||progress[cur.n]<stars){progress[cur.n]=stars;store.set('progress',progress)}
+  sfx.win();burst();
+  setTimeout(()=>{
+    $('#wTitle').textContent=cur.n===LEVELS?'You finished every level!':'Level '+cur.n+' complete!';
+    $('#wStars').innerHTML='★'.repeat(stars)+'<span class="off">'+'★'.repeat(3-stars)+'</span>';
+    $('#wInfo').textContent=moves+' moves · par '+cur.par;
+    $('#bNext').style.display=cur.n<LEVELS?'block':'none';
+    screen('sWin');
+  },900);
+}
+function burst(){
+  const cols=['#E58FA0','#E8B04A','#9B7BC0','#6FA3C8','#7FBF8E'];
+  for(let k=0;k<70;k++){parts.push({x:CW/2+(Math.random()-0.5)*lay.cs*cur.w,y:lay.y+Math.random()*lay.cs*cur.h,vx:(Math.random()-0.5)*160,vy:-120-Math.random()*220,r:3+Math.random()*4,c:cols[k%cols.length],life:1.6+Math.random()*0.8,rot:Math.random()*6})}
+}
+
+/* ---------------- layout & drawing ---------------- */
+function resize(){
+  const r=cv.getBoundingClientRect();dpr=Math.min(window.devicePixelRatio||1,2.5);CW=r.width;CH=r.height;
+  cv.width=Math.round(CW*dpr);cv.height=Math.round(CH*dpr);
+  if(!cur)return;
+  const pad=18,cs=Math.floor(Math.min((CW-pad*2)/cur.w,(CH-pad*2)/cur.h,104));
+  lay={cs,x:Math.round((CW-cs*cur.w)/2),y:Math.round((CH-cs*cur.h)/2)};
+}
+function rr(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath()}
+const FLOWER=['#E58FA0','#E8B04A','#9B7BC0','#6FA3C8','#EE9A6C'];
+function drawTile(i,t){
+  const{w}=cur,cs=lay.cs,x=i%w,y=(i/w)|0,cx=lay.x+x*cs+cs/2,cy=lay.y+y*cs+cs/2,m=st[i],on=conn[i],isRoot=i===cur.root;
+  rr(cx-cs/2+3,cy-cs/2+3,cs-6,cs-6,cs*0.2);ctx.fillStyle=on?'#FFFFFF':'#F0ECE3';ctx.fill();
+  if(kbd&&cursor===i){ctx.lineWidth=3;ctx.strokeStyle='#173F28';ctx.stroke()}
+  ctx.save();ctx.translate(cx,cy);ctx.rotate(anim[i]);
+  const lw=Math.max(4,cs*0.15),col=on?'#3F7D52':'#B8C2B4';
+  ctx.lineCap='round';ctx.lineWidth=lw;ctx.strokeStyle=col;
+  for(const[dx,dy,b]of DIRS){if(!(m&b))continue;ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(dx*cs/2,dy*cs/2);ctx.stroke();
+    if(on&&pop(m)===2&&!isRoot){ // little leaf along the vine
+      ctx.save();ctx.translate(dx*cs*0.27,dy*cs*0.27);ctx.rotate(Math.atan2(dy,dx)+0.9);ctx.fillStyle='#6FAE7E';
+      ctx.beginPath();ctx.ellipse(lw*0.9,0,lw*0.95,lw*0.45,0,0,Math.PI*2);ctx.fill();ctx.restore()}}
+  if(isRoot){
+    ctx.rotate(-anim[i]);
+    const r=cs*0.25;ctx.fillStyle='rgba(194,110,72,.18)';ctx.beginPath();ctx.arc(0,0,r*1.45+Math.sin(t*2.5)*2,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#C26E48';ctx.beginPath();ctx.moveTo(-r,-r*0.55);ctx.lineTo(r,-r*0.55);ctx.lineTo(r*0.72,r*0.85);ctx.lineTo(-r*0.72,r*0.85);ctx.closePath();ctx.fill();
+    ctx.fillStyle='#A9583A';rr(-r*1.1,-r*0.8,r*2.2,r*0.42,r*0.15);ctx.fill();
+    ctx.fillStyle='#3F7D52';ctx.beginPath();ctx.ellipse(-r*0.32,-r*1.15,r*0.36,r*0.17,-0.6,0,Math.PI*2);ctx.ellipse(r*0.32,-r*1.15,r*0.36,r*0.17,0.6,0,Math.PI*2);ctx.fill();
+  }else if(pop(m)===1){
+    ctx.rotate(-anim[i]);
+    const b=bloomT[i],r=cs*0.17;
+    if(b>0.02){const fc=FLOWER[i%FLOWER.length];ctx.fillStyle=fc;
+      for(let k=0;k<5;k++){const a=k*Math.PI*2/5+t*0.3;ctx.beginPath();ctx.ellipse(Math.cos(a)*r*0.75*b,Math.sin(a)*r*0.75*b,r*0.62*b,r*0.42*b,a,0,Math.PI*2);ctx.fill()}
+      ctx.fillStyle='#F6D365';ctx.beginPath();ctx.arc(0,0,r*0.42*Math.max(b,0.5),0,Math.PI*2);ctx.fill()}
+    if(b<0.98){ctx.globalAlpha=1-b;ctx.fillStyle=on?'#3F7D52':'#9AA696';ctx.beginPath();ctx.ellipse(0,0,r*0.62,r*0.8,0,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle=on?'#E58FA0':'#C9C2B5';ctx.beginPath();ctx.ellipse(0,-r*0.35,r*0.32,r*0.42,0,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1}
+  }else{ctx.fillStyle=col;ctx.beginPath();ctx.arc(0,0,lw*0.62,0,Math.PI*2);ctx.fill()}
+  ctx.restore();
+}
+let last=performance.now(),need=true;
+function frame(now){
+  const dt=Math.min(0.05,(now-last)/1000);last=now;const t=now/1000;
+  if(cur){
+    let animating=parts.length>0;
+    for(const i of cur.open){
+      if(anim[i]!==0){const s=Math.sign(anim[i]),v=Math.abs(anim[i])-dt*Math.PI*5;anim[i]=v<=0?0:s*v;animating=true}
+      const target=conn[i]&&pop(st[i])===1&&i!==cur.root?1:0;
+      if(bloomT[i]!==target){bloomT[i]+=Math.sign(target-bloomT[i])*dt*4;if(Math.abs(bloomT[i]-target)<0.05)bloomT[i]=target;animating=true}
+    }
+    ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,CW,CH);
+    const cs=lay.cs;rr(lay.x-10,lay.y-10,cs*cur.w+20,cs*cur.h+20,22);ctx.fillStyle='#E6DFD0';ctx.fill();
+    for(let i=0;i<cur.w*cur.h;i++){if(cur.hole[i]){const x=i%cur.w,y=(i/cur.w)|0;ctx.fillStyle='#D9D1C0';ctx.beginPath();ctx.arc(lay.x+x*cs+cs/2,lay.y+y*cs+cs/2,cs*0.06,0,Math.PI*2);ctx.fill()}}
+    for(const i of cur.open)drawTile(i,t);
+    for(const p of parts){p.vy+=260*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.life-=dt;p.rot+=dt*4;
+      ctx.save();ctx.globalAlpha=Math.max(0,Math.min(1,p.life));ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.fillStyle=p.c;ctx.beginPath();ctx.ellipse(0,0,p.r,p.r*0.55,0,0,Math.PI*2);ctx.fill();ctx.restore()}
+    parts=parts.filter(p=>p.life>0);
+  }
+  requestAnimationFrame(frame);
+}
+
+/* ---------------- input ---------------- */
+function cellAt(px,py){if(!cur)return -1;const x=Math.floor((px-lay.x)/lay.cs),y=Math.floor((py-lay.y)/lay.cs);if(x<0||y<0||x>=cur.w||y>=cur.h)return -1;const i=y*cur.w+x;return cur.hole[i]?-1:i}
+cv.addEventListener('pointerdown',e=>{e.preventDefault();const r=cv.getBoundingClientRect(),i=cellAt(e.clientX-r.left,e.clientY-r.top);if(i<0)return;kbd=false;cursor=i;rotate(i,e.button===2||e.shiftKey?-1:1)});
+cv.addEventListener('contextmenu',e=>e.preventDefault());
+window.addEventListener('keydown',e=>{
+  if(e.key==='p'||e.key==='P'||e.key==='Escape'){if(!paused)screen('sPause');else if($('#sPause').classList.contains('on'))screen(null);return}
+  if(paused||!cur)return;
+  const mv={ArrowUp:[0,-1],ArrowDown:[0,1],ArrowLeft:[-1,0],ArrowRight:[1,0]}[e.key];
+  if(mv){e.preventDefault();kbd=true;let x=cursor%cur.w,y=(cursor/cur.w)|0;for(let s=0;s<cur.w;s++){x+=mv[0];y+=mv[1];if(x<0||y<0||x>=cur.w||y>=cur.h)break;const j=y*cur.w+x;if(!cur.hole[j]){cursor=j;break}}return}
+  if(e.key===' '||e.key==='Enter'){e.preventDefault();kbd=true;rotate(cursor,1)}
+  else if(e.key==='x'||e.key==='X'||e.key==='z'||e.key==='Z'){kbd=true;rotate(cursor,-1)}
+  else if(e.key==='r'||e.key==='R'){loadLevel(cur.n)}
+});
+window.addEventListener('resize',resize);
+
+/* ---------------- menus ---------------- */
+function buildGrid(){const g=$('#grid');g.innerHTML='';const mu=maxUnlocked();
+  for(let n=1;n<=LEVELS;n++){const b=document.createElement('button');const s=progress[n]||0;
+    b.innerHTML=n+(s?'<small>'+'★'.repeat(s)+'</small>':'');b.disabled=n>mu;if(cur&&cur.n===n)b.className='cur';
+    b.setAttribute('aria-label','Level '+n+(n>mu?' (locked)':s?' ('+s+' stars)':''));
+    b.onclick=()=>{loadLevel(n);screen(null)};g.appendChild(b)}}
+function showLevels(){buildGrid();screen('sLevels')}
+$('#bPlay').onclick=()=>{audio();loadLevel(Math.min(store.get('last',1),maxUnlocked()));screen(null)};
+$('#bLevels').onclick=showLevels;$('#bLevels2').onclick=showLevels;$('#bLevels3').onclick=showLevels;$('#bLevels4').onclick=showLevels;
+$('#bLevelsBack').onclick=()=>screen(cur?null:'sTitle');
+$('#bHow').onclick=()=>screen('sHow');$('#bHowOk').onclick=()=>screen('sTitle');
+$('#bSound').onclick=()=>setMuted(!muted);$('#bSound2').onclick=()=>setMuted(!muted);
+$('#bPause').onclick=()=>{if(cur)screen('sPause')};$('#bResume').onclick=()=>screen(null);
+$('#bRestart').onclick=()=>{if(cur){loadLevel(cur.n);screen(null)}};$('#bRestart2').onclick=()=>{loadLevel(cur.n);screen(null)};
+$('#bHome').onclick=()=>screen('sTitle');
+$('#bNext').onclick=()=>{loadLevel(Math.min(LEVELS,cur.n+1));screen(null)};$('#bReplay').onclick=()=>{loadLevel(cur.n);screen(null)};
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&cur&&!paused&&!won)screen('sPause')});
+setMuted(muted);
+
+/* ---------------- boot ---------------- */
+resize();loadLevel(Math.min(store.get('last',1),maxUnlocked()));
+const shot=qs.get('shot');
+if(shot){ // screenshot staging for store art
+  const n=+(qs.get('level')||24);loadLevel(n);const R=mulberry(n+5),frac=+(qs.get('p')||0.65);
+  for(const i of cur.open)if(R()<frac)st[i]=cur.sol[i];conn=linkInfo(cur,st);for(const i of cur.open)bloomT[i]=conn[i]&&pop(st[i])===1&&i!==cur.root?1:0;
+  if(shot==='title')screen('sTitle');else screen(null);
+  if(shot==='cover'){$('#badge').style.display='block';document.body.classList.add('cover');$('#hud').style.visibility='hidden'}
+}
+if(qs.get('selftest'))selfTest();
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
