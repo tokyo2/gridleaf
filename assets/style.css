@@ -61,4 +61,5 @@ td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
 .bigcal small{display:block;font-size:11px;line-height:1.3;color:var(--accent);margin-top:3px}
 @media (max-width:640px){.bigcal{padding:6px}.bigcal table{min-width:0}.bigcal th{font-size:10px;padding:4px 0}
 .bigcal td{height:58px;padding:3px;font-size:11px}.bigcal td b{font-size:13px}.bigcal small{font-size:8.5px;overflow-wrap:anywhere}}
+.port{max-width:440px;width:100%;margin:0 auto}
 @media print{header.site,footer.site,.noprint{display:none}}
