@@ -10,10 +10,12 @@
 *{box-sizing:border-box}
 html,body{margin:0;height:100%;background:#E6EEF0;color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;overflow:hidden;-webkit-tap-highlight-color:transparent;touch-action:manipulation;user-select:none;-webkit-user-select:none}
 canvas{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}
-#hud{position:fixed;left:0;right:0;top:0;display:flex;align-items:center;justify-content:space-between;padding:10px 12px;padding-top:max(10px,env(safe-area-inset-top));pointer-events:none;z-index:5}
+#hud{position:fixed;left:0;right:0;top:0;display:flex;align-items:center;justify-content:space-between;padding:10px 12px;padding-top:max(10px,env(safe-area-inset-top));padding-left:max(12px,env(safe-area-inset-left));padding-right:max(12px,env(safe-area-inset-right));pointer-events:none;z-index:5}
 #score{background:rgba(255,255,255,.85);border-radius:16px;padding:8px 14px;font-weight:800;font-size:22px;box-shadow:0 2px 10px rgba(33,48,43,.12);min-width:90px}
 #score small{display:block;font-size:12px;font-weight:600;color:var(--muted)}
-.ib{pointer-events:auto;min-width:44px;height:44px;border:0;border-radius:14px;background:rgba(255,255,255,.9);color:var(--ink);font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 2px 10px rgba(33,48,43,.12)}
+.right{display:flex;gap:8px}
+.ib{pointer-events:auto;width:44px;height:44px;border:0;border-radius:14px;background:rgba(255,255,255,.9);color:var(--ink);font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 2px 10px rgba(33,48,43,.12);display:inline-flex;align-items:center;justify-content:center;padding:0}
+.ib svg{width:22px;height:22px;display:block}
 .screen{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(230,238,240,.75);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);z-index:20;padding:16px}
 .screen.on{display:flex}
 .panel{background:var(--card);border-radius:24px;box-shadow:0 20px 60px rgba(33,48,43,.2);padding:26px 22px;width:min(100%,400px);max-height:100%;overflow:auto;text-align:center}
@@ -25,25 +27,53 @@ p{color:var(--muted);line-height:1.5;margin:8px 0}
 button:focus-visible{outline:3px solid #173F28;outline-offset:2px}
 .how{text-align:left;margin:6px 0 12px;padding-left:20px;color:var(--ink);line-height:1.6}
 .logo{width:86px;height:86px;margin:0 auto 6px;display:block}
-#hint{position:fixed;left:50%;bottom:12%;transform:translateX(-50%);background:rgba(33,48,43,.82);color:#fff;padding:10px 18px;border-radius:999px;font-size:15px;z-index:4;pointer-events:none;transition:opacity .4s}
+/* the opening hint sits under the HUD, well clear of the bird and the first island */
+#hint{position:fixed;left:50%;top:calc(max(10px,env(safe-area-inset-top)) + 64px);transform:translateX(-50%);width:max-content;max-width:calc(100% - 24px);text-align:center;background:rgba(33,48,43,.82);color:#fff;padding:9px 18px;border-radius:999px;font-size:15px;line-height:1.3;z-index:4;pointer-events:none;transition:opacity .4s}
 #selftest{position:fixed;left:8px;bottom:8px;right:8px;max-height:45vh;overflow:auto;background:#fff;border-radius:12px;padding:10px;font:12px/1.4 ui-monospace,Consolas,monospace;z-index:50;box-shadow:0 4px 20px rgba(0,0,0,.2);white-space:pre-wrap}
-#badge{position:fixed;left:4%;top:8%;z-index:30;display:none;background:rgba(255,255,255,.93);border-radius:28px;padding:26px 34px;box-shadow:0 20px 60px rgba(33,48,43,.2)}
-#badge h1{font-size:84px;margin:0}#badge p{font-size:26px;margin:4px 0 0}
+#badge{position:fixed;left:4%;top:8%;z-index:30;display:none;background:rgba(255,255,255,.93);border-radius:28px;padding:22px 38px;box-shadow:0 20px 60px rgba(33,48,43,.2)}
+#badge h1{font-size:96px;margin:0;white-space:nowrap}
+body.cover #hud,body.cover #hint{display:none}
+body.cover.tall #badge{left:50%;top:5%;transform:translateX(-50%)}
+body.cover:not(.tall) #badge{top:50%;left:4.5%;transform:translateY(-50%)}
+body.cover:not(.tall) #badge h1{font-size:7.2vw;line-height:1.04}
+@media (max-height:500px){
+  .panel{padding:14px 18px;border-radius:18px}
+  .logo{width:48px;height:48px;margin-bottom:2px}
+  h1{font-size:30px}h2{font-size:22px;margin-bottom:4px}
+  p{margin:4px 0;font-size:14px;line-height:1.4}
+  .big{font-size:38px}
+  .btn{padding:9px 14px;font-size:16px;margin:6px 0}
+  .how{line-height:1.4;font-size:14px;margin:4px 0 8px}
+  #score{font-size:18px;padding:6px 12px;min-width:76px}
+  #hint{top:calc(max(8px,env(safe-area-inset-top)) + 56px);font-size:14px}
+}
+@media (max-height:500px) and (min-aspect-ratio:4/3){
+  .panel{width:min(100%,600px)}
+  .btns{display:grid;grid-template-columns:1fr 1fr;column-gap:10px}
+  .btns .btn:first-child{grid-column:1/-1}
+}
 </style>
 </head>
 <body>
 <canvas id="cv" aria-label="Sky Hopper game"></canvas>
-<div id="hud"><div id="score">0<small>Best 0</small></div><button class="ib" id="bPause" aria-label="Pause">II</button></div>
+<div id="hud"><div id="score">0<small>Best 0</small></div>
+  <div class="right">
+    <button class="ib" id="bMute" aria-label="Mute sound"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9.5h4l5-4v13l-5-4H3z" fill="currentColor"/><path id="mOn" d="M15.5 8.8a4.5 4.5 0 0 1 0 6.4M18.2 6.2a8.2 8.2 0 0 1 0 11.6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><path id="mOff" d="M16 9.5l5 5M21 9.5l-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"/></svg></button>
+    <button class="ib" id="bPause" aria-label="Pause"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13M16 5.5v13" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></button>
+  </div>
+</div>
 <div id="hint" style="opacity:0">Tap to leap when you face the next island</div>
 
-<div class="screen on" id="sTitle"><div class="panel">
+<div class="screen" id="sTitle"><div class="panel">
   <svg class="logo" viewBox="0 0 100 100" aria-hidden="true"><rect x="4" y="4" width="92" height="92" rx="24" fill="#DCEAF0"/><circle cx="34" cy="70" r="16" fill="#B97B53"/><path d="M18 70a16 16 0 0 1 32 0" fill="#6FAE7E"/><circle cx="70" cy="34" r="12" fill="#B97B53"/><path d="M58 34a12 12 0 0 1 24 0" fill="#6FAE7E"/><circle cx="48" cy="46" r="8" fill="#4E7A5E"/><circle cx="51" cy="44" r="2" fill="#fff"/><path d="M55 46 l6 1 -6 2z" fill="#E3A93A"/></svg>
   <h1>Sky Hopper</h1>
   <p>Leap between spinning sky islands and climb as high as you can.</p>
   <p id="tBest" style="font-weight:700;color:#21302B">Best: 0</p>
-  <button class="btn" id="bPlay">Play</button>
-  <button class="btn alt" id="bHow">How to play</button>
-  <button class="btn alt" id="bSound">Sound: On</button>
+  <div class="btns">
+    <button class="btn" id="bPlay">Play</button>
+    <button class="btn alt" id="bHow">How to play</button>
+    <button class="btn alt" id="bSound">Sound: On</button>
+  </div>
 </div></div>
 
 <div class="screen" id="sHow"><div class="panel">
@@ -53,35 +83,44 @@ button:focus-visible{outline:3px solid #173F28;outline-offset:2px}
     <li><b>Tap</b> (or press Space) to leap straight out from where you stand.</li>
     <li>Wait until you're <b>facing the next island</b>, then leap and land on it.</li>
     <li>Collect <b>golden seeds</b> for +10. Cracked islands crumble after one full turn, so leap before they go.</li>
-    <li>Fall below the screen and the run is over. P pauses.</li>
+    <li>Fall below the screen and the run is over. P pauses, M toggles sound.</li>
   </ul>
   <button class="btn" id="bHowOk">Got it</button>
 </div></div>
 
 <div class="screen" id="sPause"><div class="panel">
   <h2>Paused</h2>
-  <button class="btn" id="bResume">Resume</button>
-  <button class="btn alt" id="bSound2">Sound: On</button>
-  <button class="btn alt" id="bQuit">Title screen</button>
+  <div class="btns">
+    <button class="btn" id="bResume">Resume</button>
+    <button class="btn alt" id="bSound2">Sound: On</button>
+    <button class="btn alt" id="bQuit">Title screen</button>
+  </div>
 </div></div>
 
 <div class="screen" id="sOver"><div class="panel">
   <h2 id="oTitle">You fell!</h2>
   <div class="big" id="oScore">0</div>
   <p id="oInfo"></p>
-  <button class="btn" id="bAgain">Play again</button>
-  <button class="btn alt" id="bTitle">Title screen</button>
+  <div class="btns">
+    <button class="btn" id="bAgain">Play again</button>
+    <button class="btn alt" id="bTitle">Title screen</button>
+  </div>
 </div></div>
 
-<div id="badge"><h1>Sky Hopper</h1><p style="color:#55635C">One tap · spinning islands · endless climb</p></div>
+<div id="badge"><h1>Sky Hopper</h1></div>
 
 <script>
 (function(){
 'use strict';
+const PF=window.GLPlatform||{};  // optional platform adapter (CrazyGames build); the plain build has none
+function main(){
 const qs=new URLSearchParams(location.search);
 const $=s=>document.querySelector(s);
 const KEY='skyhopper.v1.';
-const store={get(k,d){try{const v=localStorage.getItem(KEY+k);return v===null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(KEY+k,JSON.stringify(v))}catch(e){}}};
+const store={get(k,d){try{const v=(PF.storage||localStorage).getItem(KEY+k);return v===null||v===undefined?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{(PF.storage||localStorage).setItem(KEY+k,JSON.stringify(v))}catch(e){}}};
+const pf={start(){try{PF.start&&PF.start()}catch(e){}},stop(){try{PF.stop&&PF.stop()}catch(e){}},happy(){try{PF.happy&&PF.happy()}catch(e){}},
+  midgame(cb){let done=false;const go=()=>{if(!done){done=true;cb()}};try{if(PF.midgame){PF.midgame(go);return}}catch(e){}go()}};
+const SHOT=qs.get('shot');
 function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
 
 /* ---------------- physics constants (world: x 0..100, y up) ---------------- */
@@ -130,6 +169,7 @@ function Gen(seed){
 }
 
 /* ---------------- self-test ---------------- */
+let BOT=false;
 function selfTest(){
   const t0=performance.now();const g=Gen(12345),g2=Gen(12345);let minOk=99,fails=[];
   for(let i=0;i<320;i++){g.next();g2.next()}
@@ -143,59 +183,75 @@ function selfTest(){
 
 // plays the real game loop with a simple bot (jumps when the predicted arc lands higher) to check in-game physics
 function botRun(){
-  const runs=[];
+  const runs=[];BOT=true;const keep=state;
   for(const seed of [11,22,33,44,55]){
     newGame(seed);state='play';let frames=0,topIdx=0;
     while(frames<60*240&&state==='play'){
-      if(pl.on){const from=pl.on,p=launch(from,pl.th);let tt=0,good=false;
-        while(tt<2.6){stepBody(p,1/240);tt+=1/240;
-          if(tt>0.14&&Math.hypot(p.x-from.x,p.y-from.y)<from.r+PR)break;
-          let hit=null;for(const isl of gen.isl){if(isl.gone||isl===from)continue;if(Math.hypot(p.x-isl.x,p.y-isl.y)<isl.r+PR){hit=isl;break}}
-          if(hit){good=hit.idx>from.idx;break}if(p.y<from.y-30)break}
-        if(good)jump()}
+      if(pl.on){const pr=predict();if(pr.hit&&pr.hit.idx>pl.on.idx)jump()}
       update(1/60);frames++;if(pl.on)topIdx=Math.max(topIdx,pl.on.idx)}
     runs.push(topIdx+(state==='over'?' (fell)':''));
   }
-  state='title';newGame(4242);
+  BOT=false;newGame(4242);state=keep;
   return 'Bot runs (up to 4 min of the real game loop each, 5 seeds), highest island reached: '+runs.join(', ');
 }
 
 /* ---------------- sound ---------------- */
-let muted=store.get('muted',false),ac=null;
-function audio(){if(muted)return null;try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume()}catch(e){ac=null}return ac}
-function tone(f,d,type,vol,when,slide){const a=audio();if(!a)return;const t=a.currentTime+(when||0),o=a.createOscillator(),g=a.createGain();o.type=type||'sine';o.frequency.setValueAtTime(f,t);if(slide)o.frequency.exponentialRampToValueAtTime(slide,t+d);g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(vol||0.1,t+0.01);g.gain.exponentialRampToValueAtTime(0.0001,t+d);o.connect(g).connect(a.destination);o.start(t);o.stop(t+d+0.02)}
+let muted=store.get('muted',false),ac=null;const ext={};
+const extMuted=()=>{for(const k in ext)if(ext[k])return true;return false};
+function audio(){if(muted||extMuted())return null;try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume()}catch(e){ac=null}return ac}
+function tone(f,d,type,vol,when,slide){if(BOT)return;const a=audio();if(!a)return;const t=a.currentTime+(when||0),o=a.createOscillator(),g=a.createGain();o.type=type||'sine';o.frequency.setValueAtTime(f,t);if(slide)o.frequency.exponentialRampToValueAtTime(slide,t+d);g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(vol||0.1,t+0.01);g.gain.exponentialRampToValueAtTime(0.0001,t+d);o.connect(g).connect(a.destination);o.start(t);o.stop(t+d+0.02)}
 const sfx={jump(){tone(380,0.14,'sine',0.08,0,720)},land(){tone(210,0.08,'triangle',0.09)},seed(){tone(988,0.1,'sine',0.07);tone(1319,0.14,'sine',0.05,0.05)},crack(){tone(140,0.2,'sawtooth',0.03,0,70)},fall(){tone(520,0.5,'sine',0.08,0,140)}};
-function setMuted(m){muted=m;store.set('muted',m);const t='Sound: '+(m?'Off':'On');$('#bSound').textContent=t;$('#bSound2').textContent=t}
+function setMuted(m){muted=m;store.set('muted',m);const t='Sound: '+(m?'Off':'On');$('#bSound').textContent=t;$('#bSound2').textContent=t;
+  $('#mOn').style.display=m?'none':'';$('#mOff').style.display=m?'':'none';$('#bMute').setAttribute('aria-label',m?'Unmute sound':'Mute sound')}
+// called from a click/tap, so unmuting also unlocks audio on iOS
+function toggleMute(){setMuted(!muted);if(!muted){audio();sfx.land()}}
+['touchend','click'].forEach(t=>document.addEventListener(t,()=>{if(!muted&&!extMuted()&&(!ac||ac.state!=='running'))audio()},{passive:true}));
+window.GLGame={setExternalMute(reason,on){ext[reason]=!!on;try{if(ac){if(extMuted())ac.suspend();else if(!muted)ac.resume()}}catch(e){}}};
 
 /* ---------------- game ---------------- */
 const cv=$('#cv'),ctx=cv.getContext('2d');
-let dpr=1,CW=0,CH=0,scale=1,ox=0,viewH=100,playW=0,COVER=false;
-let gen,pl,camY,state='title',score=0,seedsGot=0,maxY=0,startY=0,parts=[],clouds=[],best=store.get('best',0),hintShown=false,t=0;
+let dpr=1,CW=0,CH=0,scale=1,ox=0,viewH=100,playW=0,COVER=false,BIRD=1;
+let gen,pl,camY,state='title',score=0,seedsGot=0,maxY=0,startY=0,parts=[],clouds=[],best=store.get('best',0),jumped=false,runT=0,t=0,overTimer=0,shownAt=0,hintOn=false;
+let tut=!store.get('tut',false)&&!SHOT,tutHops=0;   // first visit: a dotted path shows where a leap would go
 function resize(){dpr=Math.min(window.devicePixelRatio||1,2.5);CW=innerWidth;CH=innerHeight;cv.width=Math.round(CW*dpr);cv.height=Math.round(CH*dpr);
-  playW=Math.min(CW,CH*0.72);scale=playW/WORLD;ox=(CW-playW)/2+(COVER?CW*0.16:0);viewH=CH/scale}
+  if(COVER&&CW/CH>1.4){playW=Math.min(CW*0.55,CH*0.85);ox=CW*0.42+(CW*0.58-playW)/2}
+  else if(COVER){playW=CW;ox=0}
+  else{playW=Math.min(CW,CH*0.72);ox=(CW-playW)/2}
+  scale=playW/WORLD;viewH=CH/scale}
 const SX=x=>ox+x*scale,SY=y=>CH-(y-camY)*scale;
+function setState(s){state=s;if(s==='play')pf.start();else pf.stop()}
 function newGame(seed){
+  clearTimeout(overTimer);
   gen=Gen(seed||((Date.now()&0xffffff)+1));
   for(let i=0;i<14;i++)gen.next();
   const f=gen.isl[0];pl={on:f,th:Math.PI/2,x:0,y:0,vx:0,vy:0,leave:0,last:null,face:0};
-  camY=0;score=0;seedsGot=0;startY=f.y+f.r;maxY=startY;parts=[];
+  camY=0;score=0;seedsGot=0;startY=f.y+f.r;maxY=startY;parts=[];runT=0;
   clouds=[];const R=mulberry(seed||7);for(let i=0;i<14;i++)clouds.push({x:R()*120-10,y:R()*400,s:6+R()*10,p:0.35+R()*0.3});
-  hintShown=false;setScore();
+  jumped=false;setScore();
 }
 function setScore(){$('#score').innerHTML=score+'<small>Best '+best+'</small>'}
 function jump(){
   if(state!=='play'||!pl.on)return;
   const isl=pl.on,v=launch(isl,pl.th);pl.x=v.x;pl.y=v.y;pl.vx=v.vx;pl.vy=v.vy;pl.last=isl;pl.leave=0.14;pl.on=null;
-  sfx.jump();puff(pl.x,pl.y,'#FFFFFF',10);
-  if(!hintShown){hintShown=true;$('#hint').style.opacity=0}
+  sfx.jump();puff(pl.x,pl.y,'#FFFFFF',10);jumped=true;
 }
-function puff(x,y,c,n){for(let k=0;k<n;k++){const a=Math.random()*6.28,s=4+Math.random()*14;parts.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:0.5+Math.random()*0.4,c,r:0.5+Math.random()*0.8})}}
+// simulate a leap from where the bird stands now: the dotted tutorial path and the self-test bot use it
+function predict(){
+  const from=pl.on,p=launch(from,pl.th),pts=[];let tt=0,hit=null;
+  while(tt<2.4&&!hit){for(let s=0;s<4&&!hit;s++){stepBody(p,1/240);tt+=1/240;
+      if(tt>0.14&&Math.hypot(p.x-from.x,p.y-from.y)<from.r+PR){tt=9;break}
+      for(const isl of gen.isl){if(isl.gone||isl===from)continue;if(Math.abs(isl.y-p.y)>isl.r+PR+1)continue;if(Math.hypot(p.x-isl.x,p.y-isl.y)<isl.r+PR){hit=isl;break}}}
+    pts.push(p.x,p.y);if(p.y<from.y-30)break}
+  return{pts,hit};
+}
+function puff(x,y,c,n){if(BOT)return;for(let k=0;k<n;k++){const a=Math.random()*6.28,s=4+Math.random()*14;parts.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:0.5+Math.random()*0.4,c,r:0.5+Math.random()*0.8})}}
 function land(isl){
-  pl.on=isl;pl.th=Math.atan2(pl.y-isl.y,pl.x-isl.x);sfx.land();puff(pl.x,pl.y,'#8BC49A',12);
+  const from=pl.last;pl.on=isl;pl.th=Math.atan2(pl.y-isl.y,pl.x-isl.x);sfx.land();puff(pl.x,pl.y,'#8BC49A',12);
   if(isl.type==='brittle'&&isl.crumble<0){isl.crumble=Math.min(6,Math.PI*2/Math.abs(isl.w)+0.6);sfx.crack()}
+  if(tut&&!BOT&&from&&isl.idx>from.idx&&++tutHops>=3){tut=false;store.set('tut',true)}
 }
 function update(dt){
-  t+=dt;
+  t+=dt;runT+=dt;
   for(const isl of gen.isl){isl.a+=isl.w*dt;if(isl.crumble>0){isl.crumble-=dt;if(isl.crumble<=0){isl.crumble=0;isl.gone=true;puff(isl.x,isl.y,'#B97B53',22);if(pl.on===isl){const R=isl.r+PR;pl.vx=-isl.w*R*Math.sin(pl.th);pl.vy=isl.w*R*Math.cos(pl.th);pl.on=null;pl.last=isl;pl.leave=0.3}}}
     if(isl.gone)isl.alpha=Math.max(0,isl.alpha-dt*3)}
   if(pl.on){const isl=pl.on;pl.th+=isl.w*dt;const R=isl.r+PR;pl.x=isl.x+R*Math.cos(pl.th);pl.y=isl.y+R*Math.sin(pl.th);pl.face=pl.th}
@@ -209,21 +265,24 @@ function update(dt){
   // seeds
   for(const s of gen.seeds){if(s.taken)continue;if(Math.hypot(s.x-pl.x,s.y-pl.y)<3.2){s.taken=true;seedsGot++;sfx.seed();puff(s.x,s.y,'#E3B23C',14)}}
   maxY=Math.max(maxY,pl.y);
-  const nscore=Math.max(0,Math.floor((maxY-startY)/2))+seedsGot*10;if(nscore!==score){score=nscore;setScore()}
+  const nscore=Math.max(0,Math.floor((maxY-startY)/2))+seedsGot*10;if(nscore!==score){score=nscore;if(!BOT)setScore()}
   // camera: only rises
   const target=pl.y-viewH*0.38;if(target>camY)camY+= (target-camY)*Math.min(1,dt*4);
   while(gen.isl[gen.isl.length-1].y<camY+viewH+60)gen.next();
   if(pl.y<camY-6)gameOver();
   for(const p of parts){p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy-=10*dt;p.life-=dt}parts=parts.filter(p=>p.life>0);
-  if(!hintShown&&t>1.2)$('#hint').style.opacity=1;
+  if(!BOT)setHint(tut?!!pl.on:(!jumped&&runT>1.2));
 }
+function setHint(on){if(on===hintOn)return;hintOn=on;const h=$('#hint');h.textContent=tut?'Tap to leap when the dotted path turns green':'Tap to leap when you face the next island';h.style.opacity=on?1:0}
 function gameOver(){
-  state='over';sfx.fall();if(score>best){best=score;store.set('best',best)}setScore();
-  $('#oScore').textContent=score;$('#oTitle').textContent=score>=best&&score>0?'New best!':'You fell!';
-  $('#oInfo').textContent=Math.floor((maxY-startY)/2)+' m climbed · '+seedsGot+' seeds · best '+best;$('#hint').style.opacity=0;
-  setTimeout(()=>show('sOver'),450);
+  if(BOT){state='over';return}
+  const isNew=score>best;   // "New best!" only for a strictly higher score
+  setState('over');sfx.fall();if(isNew){best=score;store.set('best',best);pf.happy()}setScore();
+  $('#oScore').textContent=score;$('#oTitle').textContent=isNew?'New best!':'You fell!';
+  $('#oInfo').textContent=Math.floor((maxY-startY)/2)+' m climbed · '+seedsGot+(seedsGot===1?' seed':' seeds')+' · best '+best;setHint(false);
+  clearTimeout(overTimer);overTimer=setTimeout(()=>show('sOver'),450);
 }
-function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id))}
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id));shownAt=performance.now()}
 
 /* ---------------- drawing ---------------- */
 function draw(){
@@ -232,17 +291,21 @@ function draw(){
   const g=ctx.createLinearGradient(0,0,0,CH);
   g.addColorStop(0,mix('#DCEBF3','#2F3D5C',alt));g.addColorStop(1,mix('#F6EFE2','#6E7FA6',alt));ctx.fillStyle=g;ctx.fillRect(0,0,CW,CH);
   if(alt>0.4){ctx.fillStyle='rgba(255,255,255,'+((alt-0.4)*1.2)+')';const R=mulberry(99);for(let k=0;k<70;k++){const x=R()*CW,y=(R()*CH*1.5+camY*scale*0.05)%CH;ctx.fillRect(x,y,1.6,1.6)}}
-  // side shade outside play column
   // clouds (parallax)
   for(const c of clouds){const cy=((c.y-camY*c.p)%400+400)%400;const sx=SX(c.x),sy=CH-cy*scale*0.9;
     ctx.fillStyle='rgba(255,255,255,'+(0.55-alt*0.3)+')';ctx.beginPath();ctx.ellipse(sx,sy,c.s*scale,c.s*scale*0.42,0,0,Math.PI*2);ctx.ellipse(sx+c.s*scale*0.6,sy+c.s*scale*0.1,c.s*scale*0.7,c.s*scale*0.35,0,0,Math.PI*2);ctx.fill()}
-  if(playW<CW){ctx.fillStyle='rgba(33,48,43,.05)';ctx.fillRect(0,0,ox,CH);ctx.fillRect(ox+playW,0,CW-ox-playW,CH)}
+  // side shade outside the play column
+  if(playW<CW&&!COVER){ctx.fillStyle='rgba(33,48,43,.05)';ctx.fillRect(0,0,ox,CH);ctx.fillRect(ox+playW,0,CW-ox-playW,CH)}
   // seeds
-  for(const s of gen.seeds){if(s.taken||s.y<camY-5||s.y>camY+viewH+5)continue;const x=SX(s.x),y=SY(s.y+Math.sin(t*3+s.ph)*0.6),r=1.3*scale;
+  const capY=COVER&&CW/CH<=1.4?CH*0.29:-1e9; // tall covers keep the sky under the title clear
+  for(const s of gen.seeds){if(s.taken||s.y<camY-5||s.y>camY+viewH+5||SY(s.y)<capY)continue;const x=SX(s.x),y=SY(s.y+Math.sin(t*3+s.ph)*0.6),r=1.3*scale;
     ctx.fillStyle='rgba(227,178,60,.25)';ctx.beginPath();ctx.arc(x,y,r*2.1,0,Math.PI*2);ctx.fill();
     ctx.fillStyle='#E3B23C';ctx.beginPath();ctx.ellipse(x,y,r*0.75,r,0.4,0,Math.PI*2);ctx.fill();ctx.fillStyle='#FFF4D2';ctx.beginPath();ctx.ellipse(x-r*0.2,y-r*0.3,r*0.2,r*0.35,0.4,0,Math.PI*2);ctx.fill()}
   // islands
-  for(const isl of gen.isl){if(isl.y<camY-20||isl.y>camY+viewH+20||isl.alpha<=0)continue;drawIsland(isl)}
+  for(const isl of gen.isl){if(isl.y<camY-20||isl.y>camY+viewH+20||isl.alpha<=0||SY(isl.y+isl.r)<capY)continue;drawIsland(isl)}
+  // tutorial: dotted leap path, green when it lands on a higher island
+  if(tut&&state==='play'&&pl.on){const pr=predict(),good=pr.hit&&pr.hit.idx>pl.on.idx;ctx.fillStyle=good?'rgba(46,140,96,.95)':'rgba(255,255,255,.85)';
+    for(let k=6;k<pr.pts.length;k+=6){ctx.beginPath();ctx.arc(SX(pr.pts[k]),SY(pr.pts[k+1]),Math.max(2,scale*0.45),0,Math.PI*2);ctx.fill()}}
   // player
   drawBird();
   for(const p of parts){ctx.globalAlpha=Math.max(0,Math.min(1,p.life*2));ctx.fillStyle=p.c;ctx.beginPath();ctx.arc(SX(p.x),SY(p.y),p.r*scale,0,Math.PI*2);ctx.fill()}ctx.globalAlpha=1;
@@ -268,7 +331,7 @@ function drawIsland(isl){
   ctx.globalAlpha=1;
 }
 function drawBird(){
-  const x=SX(pl.x),y=SY(pl.y),r=PR*scale*1.3;
+  const x=SX(pl.x),y=SY(pl.y),r=PR*scale*1.3*BIRD;
   ctx.save();ctx.translate(x,y);ctx.rotate(-pl.face);if(Math.cos(pl.face)<0)ctx.scale(1,-1);
   ctx.fillStyle='#3E6B50';ctx.beginPath();ctx.ellipse(-r*0.1,0,r*1.05,r*0.9,0,0,Math.PI*2);ctx.fill();
   ctx.fillStyle='#A8D3B3';ctx.beginPath();ctx.ellipse(r*0.05,r*0.25,r*0.6,r*0.45,0,0,Math.PI*2);ctx.fill();
@@ -283,29 +346,53 @@ function frame(now){const dt=Math.min(0.04,(now-last)/1000);last=now;
   draw();requestAnimationFrame(frame)}
 
 /* ---------------- input & menus ---------------- */
-function play(){audio();newGame();state='play';show(null)}
+function play(){audio();newGame();setState('play');show(null);last=performance.now()}
+function pause(){if(state==='play'){setState('paused');show('sPause');setHint(false)}}
+function resume(){if(state==='paused'){setState('play');show(null);last=performance.now()}}
+function toTitle(){newGame(4242);setState('title');$('#tBest').textContent='Best: '+best;show('sTitle');setHint(false)}
 cv.addEventListener('pointerdown',e=>{e.preventDefault();if(state==='play')jump()});
+const NAV=['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' ','Enter'];
+// keyboard on menus: arrows move between buttons, Space/Enter press the focused (or main) button, e.g. Play again
+function menuKey(e){
+  const scr=document.querySelector('.screen.on');if(!scr||NAV.indexOf(e.key)<0)return false;
+  const bs=[...scr.querySelectorAll('button')].filter(b=>!b.disabled&&b.offsetParent!==null);if(!bs.length)return true;
+  let i=bs.indexOf(document.activeElement);
+  if(e.key===' '||e.key==='Enter'){if(e.repeat||performance.now()-shownAt<350)return true;(i>=0?bs[i]:bs[0]).click();return true}
+  const dir=e.key==='ArrowUp'||e.key==='ArrowLeft'?-1:1;
+  i=i<0?0:Math.max(0,Math.min(bs.length-1,i+dir));bs[i].focus();return true;
+}
 window.addEventListener('keydown',e=>{
-  if(e.key===' '||e.key==='ArrowUp'||e.key==='w'||e.key==='W'){e.preventDefault();if(state==='play')jump();return}
-  if(e.key==='p'||e.key==='P'||e.key==='Escape'){if(state==='play'){state='paused';show('sPause')}else if(state==='paused'){state='play';show(null)}}
+  if(NAV.indexOf(e.key)>=0)e.preventDefault();
+  if(e.key==='m'||e.key==='M'){toggleMute();return}
+  if(e.key==='p'||e.key==='P'||e.key==='Escape'){if(state==='play')pause();else if(state==='paused')resume();else if($('#sHow').classList.contains('on'))show('sTitle');return}
+  if(menuKey(e))return;
+  if(e.key===' '||e.key==='ArrowUp'||e.key==='w'||e.key==='W'){if(state==='play')jump()}
 });
-$('#bPause').onclick=()=>{if(state==='play'){state='paused';show('sPause')}};
-$('#bResume').onclick=()=>{state='play';show(null);last=performance.now()};
-$('#bPlay').onclick=play;$('#bAgain').onclick=play;
+$('#bPause').onclick=pause;$('#bResume').onclick=resume;$('#bMute').onclick=toggleMute;
+$('#bPlay').onclick=play;$('#bAgain').onclick=()=>pf.midgame(play);
 $('#bHow').onclick=()=>show('sHow');$('#bHowOk').onclick=()=>show('sTitle');
-$('#bQuit').onclick=$('#bTitle').onclick=()=>{state='title';newGame(4242);$('#tBest').textContent='Best: '+best;show('sTitle')};
-$('#bSound').onclick=()=>setMuted(!muted);$('#bSound2').onclick=()=>setMuted(!muted);
-document.addEventListener('visibilitychange',()=>{if(document.hidden&&state==='play'){state='paused';show('sPause')}});
+$('#bQuit').onclick=$('#bTitle').onclick=toTitle;
+$('#bSound').onclick=toggleMute;$('#bSound2').onclick=toggleMute;
+document.addEventListener('visibilitychange',()=>{if(document.hidden)pause()});
 window.addEventListener('resize',resize);
 setMuted(muted);$('#tBest').textContent='Best: '+best;
 resize();newGame(4242);
-const shot=qs.get('shot');
-if(shot){ // staged scene for store art: mid-climb, bird in the air
-  newGame(777);state='play';show(null);for(let i=0;i<40;i++)gen.next();
-  const a=gen.isl[5],b=gen.isl[6];camY=a.y-viewH*0.3;pl.on=null;const side=b.x>50?-1:1;pl.x=b.x+side*(b.r+5.5);pl.y=b.y-1.5;pl.vx=-side*5;pl.vy=4;pl.face=side>0?Math.PI-0.35:0.35;maxY=pl.y;score=187;seedsGot=3;setScore();
-  for(const s of gen.seeds)s.taken=false;state=shot==='title'?'title':'shot';if(shot==='title')show('sTitle');if(shot==='cover'){$('#badge').style.display='block';COVER=true;$('#hud').style.visibility='hidden';resize()}}
+if(SHOT){ // staged scene for store art: mid-climb, bird in the air
+  if(SHOT==='cover'){COVER=true;BIRD=2.6;document.body.classList.add('cover');$('#badge').style.display='block';if(innerWidth/innerHeight<=1.4)document.body.classList.add('tall');else $('#badge h1').innerHTML=$('#badge h1').textContent.replace(' ','<br>');resize()}
+  newGame(777);state='shot';show(null);for(let i=0;i<40;i++)gen.next();
+  const a=gen.isl[5],b=gen.isl[6];pl.on=null;
+  if(COVER){ // hero bird in open sky between two islands, heading for the upper one
+    const side=b.x>a.x?1:-1;pl.x=Math.max(14,Math.min(86,(a.x+b.x)/2-side*16));pl.y=(a.y+b.y)/2+2;pl.face=side>0?0.5:Math.PI-0.5;
+    camY=pl.y-viewH*(CW/CH>1.4?0.42:0.36)}
+  else{camY=a.y-viewH*0.3;const side=b.x>50?-1:1;pl.x=b.x+side*(b.r+5.5);pl.y=b.y-1.5;pl.face=side>0?Math.PI-0.35:0.35}
+  pl.vx=0;pl.vy=4;maxY=pl.y;score=187;seedsGot=3;setScore();
+  for(const s of gen.seeds)s.taken=false;if(SHOT==='title'){state='title';show('sTitle')}}
+else if(tut){setState('play');show(null)}   // first visit: straight into a run with the guided leap path
+else{setState('title');show('sTitle')}
 if(qs.get('selftest'))selfTest();
 requestAnimationFrame(frame);
+}
+if(PF.ready&&PF.ready.then)PF.ready.then(main,main);else main();
 })();
 </script>
 </body>
