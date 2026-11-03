@@ -16,9 +16,9 @@
 <div class="kpi"><b id="cd-m">–</b><span>minutes</span></div><div class="kpi"><b id="cd-s">–</b><span>seconds</span></div></div>
 <p>until <b id="cd-date">New Year's Day</b></p>
 <p class="note"><span id="cd-sl">–</span> sleeps · <span id="cd-we">–</span> weekends (Saturdays) · <span id="cd-wk">–</span> weeks</p></div>
-<noscript><p>New Year's Day is on January 1. Turn on JavaScript to see the live countdown.</p></noscript></section>
-<section><h2>Start the new year organized</h2><p>Print the free <a href="/gridleaf/2027-calendar/">2027 calendar</a>, set your goals, or get the
-<a href="/gridleaf/2027-digital-planner/">2027 Digital Planner</a>.</p></section><section class="faq"><h2>Countdown FAQ</h2><details><summary>How is the New Year's Day countdown calculated?</summary><p>It counts down to midnight at the start of New Year's Day in your own time zone, using your device's clock.</p></details><details><summary>What are 'sleeps'?</summary><p>The number of nights left, including tonight, the way kids count it.</p></details></section><div class="card grid g2" style="align-items:center;margin-top:36px">
+<noscript><p>New Year's Day is on Friday, January 1, 2027. Turn on JavaScript to see the live countdown.</p></noscript></section>
+<section><h2>Start the new year organized</h2><p>Print the free <a href="/gridleaf/2027-calendar/">2027 calendar</a>, set your goals with the
+<a href="/gridleaf/free-2027-goals-worksheet/">2027 goals worksheet</a>, or get the <a href="/gridleaf/2027-digital-planner/">2027 Digital Planner</a>.</p></section><section class="faq"><h2>Countdown FAQ</h2><details><summary>How is the New Year's Day countdown calculated?</summary><p>It counts down to midnight at the start of New Year's Day in your own time zone, using your device's clock.</p></details><details><summary>What are 'sleeps'?</summary><p>The number of nights left, including tonight, the way kids count it.</p></details></section><div class="card grid g2" style="align-items:center;margin-top:36px">
 <img src="/gridleaf/assets/img/planner-cover.webp" alt="2027 hyperlinked digital planner on a tablet" loading="lazy" width="1280" height="720" class="shot">
 <div><span class="tag">Premium template</span><h3>2027 Digital Planner</h3>
 <p>Hyperlinked planner for GoodNotes, Notability &amp; any PDF app: 470+ pages, daily/weekly/monthly, habits and budget pages, 3 colorways.</p>
@@ -28,8 +28,8 @@
 <a href="/gridleaf/budget-calculator/">50/30/20 calculator</a> · <a href="/gridleaf/savings-goal-calculator/">Savings goal calculator</a></span>
 </div><div class="wrap note">Calculators are for education and planning, not financial advice. Nothing you type is sent anywhere — everything runs in your browser.</div></footer>
 <script>
-(function(){const m=1,d=1,el=id=>document.getElementById(id);
-function target(){const n=new Date();let t=new Date(n.getFullYear(),m-1,d);if(n>=new Date(n.getFullYear(),m-1,d+1))t=new Date(n.getFullYear()+1,m-1,d);return t}
+(function(){const T=[[2027,1,1],[2028,1,1],[2029,1,1]].map(a=>new Date(a[0],a[1]-1,a[2])),el=id=>document.getElementById(id);
+function target(){const n=new Date();for(const t of T){if(n<new Date(t.getFullYear(),t.getMonth(),t.getDate()+1))return t}return T[T.length-1]}
 function tick(){const n=new Date(),t=target(),ms=t-n;
  if(ms<=0&&ms>-864e5){el('cd').innerHTML='<b>Today is the day!</b>';return}
  const days=Math.floor(ms/864e5),h=Math.floor(ms%864e5/36e5),mi=Math.floor(ms%36e5/6e4),s=Math.floor(ms%6e4/1e3);
