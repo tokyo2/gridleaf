@@ -1,6 +1,0 @@
-calendars/pin-december-2026-calendar
-calendars/pin-january-2027-calendar
-calendars/pin-2027-calendar
-pin-free-calendar
-pin-planner
-pin-budget
