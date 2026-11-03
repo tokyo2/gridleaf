@@ -45,6 +45,10 @@ button:focus-visible{outline:3px solid #173F28;outline-offset:2px}
 #grid button small{font-size:10px;color:#9A6A1C;letter-spacing:1px}
 #grid button[disabled]{background:#EFEBE3;color:#A9A397;cursor:not-allowed}
 #grid button.cur{outline:3px solid var(--sage)}
+/* level select: the title and Back stay in view; only the grid scrolls */
+#sLevels .panel{display:flex;flex-direction:column}
+#sLevels h2,#sLevels .btn{flex:none}
+#sLevels #grid{flex:0 1 auto;min-height:0;overflow:auto;position:relative;padding:5px;margin:12px 0 2px}
 #selftest{position:fixed;left:8px;bottom:8px;right:8px;max-height:45vh;overflow:auto;background:#fff;border-radius:12px;padding:10px;font:12px/1.4 ui-monospace,Consolas,monospace;z-index:50;box-shadow:0 4px 20px rgba(0,0,0,.2);white-space:pre-wrap}
 #badge{position:fixed;left:4%;top:8%;z-index:30;display:none;background:rgba(255,255,255,.93);border-radius:28px;padding:22px 38px;box-shadow:0 20px 60px rgba(34,48,42,.2)}
 #badge h1{font-size:96px;margin:0;white-space:nowrap}
@@ -414,11 +418,11 @@ function frame(now){
 function cellAt(px,py){if(!cur)return -1;const x=Math.floor((px-lay.x)/lay.cs),y=Math.floor((py-lay.y)/lay.cs);if(x<0||y<0||x>=cur.w||y>=cur.h)return -1;const i=y*cur.w+x;return cur.hole[i]?-1:i}
 function cancelPress(){if(press){clearTimeout(press.timer);press=null}}
 cv.addEventListener('pointerdown',e=>{
-  e.preventDefault();
+  e.preventDefault();window.focus();   // preventDefault stops the browser focusing the frame, so focus it here: keys must reach the game inside an iframe
   const isTouch=e.pointerType==='touch'||e.pointerType==='pen';
   if(isTouch!==touchMode){touchMode=isTouch;if(tut&&tut.step===1)tutUpdate()}
   const r=cv.getBoundingClientRect(),i=cellAt(e.clientX-r.left,e.clientY-r.top);
-  if(i<0||paused||won)return;kbd=false;cursor=i;
+  if(i<0||paused||won||performance.now()-shownAt<250)return;kbd=false;cursor=i;   // a double-tap on "Next level" must not turn a tile on the new level
   if(!isTouch){rotate(i,e.button===2||e.shiftKey?-1:1);return}
   if(press)return; // a second finger is ignored
   // touch: a quick tap turns clockwise on release; holding for HOLD ms turns the tile back
@@ -431,6 +435,7 @@ cv.addEventListener('pointermove',e=>{if(press&&e.pointerId===press.id&&Math.hyp
 cv.addEventListener('contextmenu',e=>e.preventDefault());
 
 const NAV=['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' ','Enter'];
+const NOSCROLL=NAV.concat(['PageUp','PageDown','Home','End']);   // keys that would otherwise scroll the host page
 // keyboard on menus: arrows move between buttons, Space/Enter press the focused (or main) button
 function menuKey(e){
   const scr=document.querySelector('.screen.on');if(!scr||NAV.indexOf(e.key)<0)return false;
@@ -439,10 +444,10 @@ function menuKey(e){
   if(e.key===' '||e.key==='Enter'){if(e.repeat||performance.now()-shownAt<350)return true;(i>=0?bs[i]:bs[0]).click();return true}
   const vert=e.key==='ArrowUp'||e.key==='ArrowDown',dir=e.key==='ArrowUp'||e.key==='ArrowLeft'?-1:1;
   const g=i>=0&&bs[i].parentNode.id==='grid'?bs[i].parentNode:null,cols=g?getComputedStyle(g).gridTemplateColumns.split(' ').length:1;
-  i=i<0?0:Math.max(0,Math.min(bs.length-1,i+dir*(vert?cols:1)));bs[i].focus();return true;
+  i=i<0?Math.max(0,bs.indexOf(scr.querySelector('.cur'))):Math.max(0,Math.min(bs.length-1,i+dir*(vert?cols:1)));bs[i].focus();return true;   // level select starts at the current level
 }
 window.addEventListener('keydown',e=>{
-  if(NAV.indexOf(e.key)>=0)e.preventDefault();
+  if(NOSCROLL.indexOf(e.key)>=0)e.preventDefault();
   if(e.key==='m'||e.key==='M'){toggleMute();return}
   if(e.key==='p'||e.key==='P'||e.key==='Escape'){
     if(!paused){if(cur&&!won)screen('sPause')}
@@ -466,7 +471,8 @@ function buildGrid(){const g=$('#grid');g.innerHTML='';const mu=maxUnlocked();
     b.innerHTML=n+(s?'<small>'+'★'.repeat(s)+'</small>':'');b.disabled=n>mu;if(cur&&cur.n===n)b.className='cur';
     b.setAttribute('aria-label','Level '+n+(n>mu?' (locked)':s?' ('+s+' stars)':''));
     b.onclick=()=>{loadLevel(n);screen(null)};g.appendChild(b)}}
-function showLevels(from){levelsFrom=from;buildGrid();screen('sLevels')}
+function showLevels(from){levelsFrom=from;buildGrid();screen('sLevels');
+  const g=$('#grid'),c=g.querySelector('.cur');if(c)g.scrollTop=c.offsetTop-(g.clientHeight-c.offsetHeight)/2}   // open with the current level in view
 function play(){const n=Math.min(store.get('last',1),maxUnlocked());if(!cur||won||cur.n!==n)loadLevel(n);screen(null)}
 $('#bPlay').onclick=()=>{audio();play()};
 $('#bLevels').onclick=()=>{if(!won)showLevels(null)};$('#bLevels2').onclick=()=>showLevels('sTitle');$('#bLevels3').onclick=()=>showLevels('sPause');

@@ -40,6 +40,10 @@ button:focus-visible{outline:3px solid #173F28;outline-offset:2px}
 #grid button small{font-size:10px;color:#9A6A1C;letter-spacing:1px}
 #grid button[disabled]{background:#EFEBE3;color:#A9A397;cursor:not-allowed}
 #grid button.cur{outline:3px solid var(--sage)}
+/* level select: the title and Back stay in view; only the grid scrolls */
+#sLevels .panel{display:flex;flex-direction:column}
+#sLevels h2,#sLevels .btn{flex:none}
+#sLevels #grid{flex:0 1 auto;min-height:0;overflow:auto;position:relative;padding:5px;margin:12px 0 2px}
 #selftest{position:fixed;left:8px;bottom:8px;right:8px;max-height:45vh;overflow:auto;background:#fff;border-radius:12px;padding:10px;font:12px/1.4 ui-monospace,Consolas,monospace;z-index:50;box-shadow:0 4px 20px rgba(0,0,0,.2);white-space:pre-wrap}
 #badge{position:fixed;left:4%;top:7%;z-index:30;display:none;background:rgba(255,255,255,.93);border-radius:28px;padding:22px 38px;box-shadow:0 20px 60px rgba(38,44,42,.2)}
 #badge h1{font-size:96px;margin:0;white-space:nowrap}
@@ -106,7 +110,7 @@ body.cover:not(.tall) #badge h1{font-size:7.2vw;line-height:1.04}
     <li>Tap a pot to pick up its <b>top</b> seedling, then tap another pot to plant it.</li>
     <li>You can plant on an <b>empty pot</b>, or on a seedling that shares its <b>colour or its shape</b>.</li>
     <li>A pot holds four. Sort until each full pot has <b>one kind</b> (same colour <i>and</i> shape).</li>
-    <li>Stuck? Use <b>Undo</b> or <b>Hint</b>. Finish within par for three stars.</li>
+    <li>Stuck? <b>Undo</b> is free (it takes the move back), or tap <b>Hint</b>. Finish within par for three stars.</li>
     <li>Keyboard: number keys pick pots (0 is pot 10), U undo, H hint, R restart, M sound, P menu.</li>
   </ul>
   <button class="btn" id="bHowOk">Got it</button>
@@ -335,15 +339,16 @@ function finish(){
     $('#bNext').style.display=L.n<LEVELS?'block':'none';screen('sWin')},900);
 }
 function tap(i){
-  if(paused||won||fly||i<0)return;
+  if(paused||won||i<0)return;
+  if(fly){landFly();if(won)return}   // a tap during the short plant animation finishes it, so quick taps are never lost
   if(sel<0){if(!pots[i].length)return;const P=pots[i];if(P.length===C&&P.every(v=>v===P[0])){toast('This pot is finished');return}sel=i;sfx.pick();if(tut)tutUpdate();return}
   if(sel===i){sel=-1;if(tut)tutUpdate();return}
   if(canMove(L,pots,sel,i)){const a=sel;sel=-1;doMove(a,i,true)}
   else{sfx.nope();shake={i,t:0};if(pots[i].length>=C)toast('That pot is full');else toast('Needs the same colour or shape');sel=-1;if(tut)tutUpdate()}
 }
-// undo takes the last move back; it is not counted as a move
-function undo(){if(fly||won||!hist.length)return;const[a,b]=hist.pop();pots[a].push(pots[b].pop());sel=-1;hint=null;hud();sfx.pick();if(tut)tutUpdate()}
-function giveHint(){if(fly||won)return;const s=solve(L,pots,60000);if(s&&s.length){hint={a:s[0][0],b:s[0][1],t:0};sel=-1}else toast('No quick path from here. Try Undo.')}
+// undo is free: it takes the last move back and off the move counter, so stars count only the moves that stay
+function undo(){if(won||!hist.length)return;if(fly){landFly();if(won)return}const[a,b]=hist.pop();moves--;pots[a].push(pots[b].pop());sel=-1;hint=null;hud();sfx.pick();if(tut)tutUpdate()}
+function giveHint(){if(won)return;if(fly){landFly();if(won)return}const s=solve(L,pots,60000);if(s&&s.length){hint={a:s[0][0],b:s[0][1],t:0};sel=-1}else toast('No quick path from here. Try Undo.')}
 
 /* ---------------- layout & draw ---------------- */
 // one geometry for every screen: pot slot = KW*ir wide; lift space + pot + shadow = KH*ir tall; rows are balanced
@@ -422,9 +427,13 @@ function frame(now){
 
 /* ---------------- input & menus ---------------- */
 function potAt(px,py){if(!layout)return -1;let best=-1,bd=1e9;for(let i=0;i<layout.pos.length;i++){const p=layout.pos[i];if(px<p.x-p.w*0.62||px>p.x+p.w*0.62||py<p.y-layout.ir*2.8||py>p.y+p.h+layout.ir*0.6)continue;const d=Math.abs(px-p.x);if(d<bd){bd=d;best=i}}return best}
-cv.addEventListener('pointerdown',e=>{e.preventDefault();audio();const r=cv.getBoundingClientRect();kbdPot=-1;tap(potAt(e.clientX-r.left,e.clientY-r.top))});
+cv.addEventListener('pointerdown',e=>{
+  e.preventDefault();window.focus();   // preventDefault stops the browser focusing the frame, so focus it here: keys must reach the game inside an iframe
+  audio();if(performance.now()-shownAt<250)return;   // a double-tap on "Next level" must not lift a seedling on the new level
+  const r=cv.getBoundingClientRect();kbdPot=-1;tap(potAt(e.clientX-r.left,e.clientY-r.top))});
 cv.addEventListener('contextmenu',e=>e.preventDefault());
 const NAV=['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' ','Enter'];
+const NOSCROLL=NAV.concat(['PageUp','PageDown','Home','End']);   // keys that would otherwise scroll the host page
 // keyboard on menus: arrows move between buttons, Space/Enter press the focused (or main) button
 function menuKey(e){
   const scr=document.querySelector('.screen.on');if(!scr||NAV.indexOf(e.key)<0)return false;
@@ -433,10 +442,10 @@ function menuKey(e){
   if(e.key===' '||e.key==='Enter'){if(e.repeat||performance.now()-shownAt<350)return true;(i>=0?bs[i]:bs[0]).click();return true}
   const vert=e.key==='ArrowUp'||e.key==='ArrowDown',dir=e.key==='ArrowUp'||e.key==='ArrowLeft'?-1:1;
   const g=i>=0&&bs[i].parentNode.id==='grid'?bs[i].parentNode:null,cols=g?getComputedStyle(g).gridTemplateColumns.split(' ').length:1;
-  i=i<0?0:Math.max(0,Math.min(bs.length-1,i+dir*(vert?cols:1)));bs[i].focus();return true;
+  i=i<0?Math.max(0,bs.indexOf(scr.querySelector('.cur'))):Math.max(0,Math.min(bs.length-1,i+dir*(vert?cols:1)));bs[i].focus();return true;   // level select starts at the current level
 }
 window.addEventListener('keydown',e=>{
-  if(NAV.indexOf(e.key)>=0)e.preventDefault();
+  if(NOSCROLL.indexOf(e.key)>=0)e.preventDefault();
   if(e.key==='m'||e.key==='M'){toggleMute();return}
   if(e.key==='p'||e.key==='P'||e.key==='Escape'){
     if(!paused){if(L&&!won)screen('sPause')}
@@ -453,7 +462,8 @@ window.addEventListener('keydown',e=>{
 });
 window.addEventListener('resize',resize);
 function buildGrid(){const g=$('#grid');g.innerHTML='';const mu=maxUnlocked();for(let n=1;n<=LEVELS;n++){const b=document.createElement('button'),s=progress[n]||0;b.innerHTML=n+(s?'<small>'+'★'.repeat(s)+'</small>':'');b.disabled=n>mu;if(L&&L.n===n)b.className='cur';b.setAttribute('aria-label','Level '+n+(n>mu?' (locked)':s?' ('+s+' stars)':''));b.onclick=()=>{load(n);screen(null)};g.appendChild(b)}}
-function showLevels(from){levelsFrom=from;buildGrid();screen('sLevels')}
+function showLevels(from){levelsFrom=from;buildGrid();screen('sLevels');
+  const g=$('#grid'),c=g.querySelector('.cur');if(c)g.scrollTop=c.offsetTop-(g.clientHeight-c.offsetHeight)/2}   // open with the current level in view
 function play(){const n=Math.min(store.get('last',1),maxUnlocked());if(!L||won||L.n!==n)load(n);screen(null)}
 $('#bPlay').onclick=()=>{audio();play()};
 $('#bLevels').onclick=()=>{if(!won)showLevels(null)};$('#bLevels2').onclick=()=>showLevels('sTitle');$('#bLevels3').onclick=()=>showLevels('sPause');

@@ -93,7 +93,7 @@ body.cover:not(.tall) #badge h1{font-size:7.2vw;line-height:1.04}
   <div class="btns">
     <button class="btn" id="bResume">Resume</button>
     <button class="btn alt" id="bSound2">Sound: On</button>
-    <button class="btn alt" id="bQuit">Title screen</button>
+    <button class="btn alt" id="bQuit">End run</button>
   </div>
 </div></div>
 
@@ -225,7 +225,8 @@ function newGame(seed){
   gen=Gen(seed||((Date.now()&0xffffff)+1));
   for(let i=0;i<14;i++)gen.next();
   const f=gen.isl[0];pl={on:f,th:Math.PI/2,x:0,y:0,vx:0,vy:0,leave:0,last:null,face:0};
-  camY=0;score=0;seedsGot=0;startY=f.y+f.r;maxY=startY;parts=[];runT=0;
+  camY=-5;   // start the camera a little low so the bird never dips below the bottom edge on the first island
+  score=0;seedsGot=0;startY=f.y+f.r;maxY=startY;parts=[];runT=0;
   clouds=[];const R=mulberry(seed||7);for(let i=0;i<14;i++)clouds.push({x:R()*120-10,y:R()*400,s:6+R()*10,p:0.35+R()*0.3});
   jumped=false;setScore();
 }
@@ -274,13 +275,13 @@ function update(dt){
   if(!BOT)setHint(tut?!!pl.on:(!jumped&&runT>1.2));
 }
 function setHint(on){if(on===hintOn)return;hintOn=on;const h=$('#hint');h.textContent=tut?'Tap to leap when the dotted path turns green':'Tap to leap when you face the next island';h.style.opacity=on?1:0}
-function gameOver(){
+function gameOver(quit){   // quit: the player ended the run from the pause menu
   if(BOT){state='over';return}
   const isNew=score>best;   // "New best!" only for a strictly higher score
-  setState('over');sfx.fall();if(isNew){best=score;store.set('best',best);pf.happy()}setScore();
-  $('#oScore').textContent=score;$('#oTitle').textContent=isNew?'New best!':'You fell!';
+  setState('over');if(!quit)sfx.fall();if(isNew){best=score;store.set('best',best);pf.happy()}setScore();
+  $('#oScore').textContent=score;$('#oTitle').textContent=isNew?'New best!':quit?'Run ended':'You fell!';
   $('#oInfo').textContent=Math.floor((maxY-startY)/2)+' m climbed · '+seedsGot+(seedsGot===1?' seed':' seeds')+' · best '+best;setHint(false);
-  clearTimeout(overTimer);overTimer=setTimeout(()=>show('sOver'),450);
+  clearTimeout(overTimer);overTimer=setTimeout(()=>show('sOver'),quit?0:450);
 }
 function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id));shownAt=performance.now()}
 
@@ -347,11 +348,19 @@ function frame(now){const dt=Math.min(0.04,(now-last)/1000);last=now;
 
 /* ---------------- input & menus ---------------- */
 function play(){audio();newGame();setState('play');show(null);last=performance.now()}
-function pause(){if(state==='play'){setState('paused');show('sPause');setHint(false)}}
+let quitAt=0;
+function pause(){if(state==='play'){setState('paused');show('sPause');setHint(false);quitAt=0;$('#bQuit').textContent='End run'}}
 function resume(){if(state==='paused'){setState('play');show(null);last=performance.now()}}
+// "End run" asks once, then ends the run like a fall, so the score is shown and a new best is kept
+function quitRun(){if(state!=='paused')return;if(!quitAt||performance.now()-quitAt>3000){quitAt=performance.now();$('#bQuit').textContent='Tap again to end run';return}gameOver(true)}
 function toTitle(){newGame(4242);setState('title');$('#tBest').textContent='Best: '+best;show('sTitle');setHint(false)}
-cv.addEventListener('pointerdown',e=>{e.preventDefault();if(state==='play')jump()});
+cv.addEventListener('pointerdown',e=>{
+  e.preventDefault();window.focus();   // preventDefault stops the browser focusing the frame, so focus it here: keys must reach the game inside an iframe
+  if(state==='play'&&performance.now()-shownAt>250)jump()});   // a double-tap on "Play again" must not leap at once
+// a tap meant for the bird can land on "Play again" as the panel appears: ignore pointer clicks there for a moment
+$('#sOver').addEventListener('click',e=>{if(e.detail&&performance.now()-shownAt<600)e.stopPropagation()},true);
 const NAV=['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' ','Enter'];
+const NOSCROLL=NAV.concat(['PageUp','PageDown','Home','End']);   // keys that would otherwise scroll the host page
 // keyboard on menus: arrows move between buttons, Space/Enter press the focused (or main) button, e.g. Play again
 function menuKey(e){
   const scr=document.querySelector('.screen.on');if(!scr||NAV.indexOf(e.key)<0)return false;
@@ -362,7 +371,7 @@ function menuKey(e){
   i=i<0?0:Math.max(0,Math.min(bs.length-1,i+dir));bs[i].focus();return true;
 }
 window.addEventListener('keydown',e=>{
-  if(NAV.indexOf(e.key)>=0)e.preventDefault();
+  if(NOSCROLL.indexOf(e.key)>=0)e.preventDefault();
   if(e.key==='m'||e.key==='M'){toggleMute();return}
   if(e.key==='p'||e.key==='P'||e.key==='Escape'){if(state==='play')pause();else if(state==='paused')resume();else if($('#sHow').classList.contains('on'))show('sTitle');return}
   if(menuKey(e))return;
@@ -371,7 +380,7 @@ window.addEventListener('keydown',e=>{
 $('#bPause').onclick=pause;$('#bResume').onclick=resume;$('#bMute').onclick=toggleMute;
 $('#bPlay').onclick=play;$('#bAgain').onclick=()=>pf.midgame(play);
 $('#bHow').onclick=()=>show('sHow');$('#bHowOk').onclick=()=>show('sTitle');
-$('#bQuit').onclick=$('#bTitle').onclick=toTitle;
+$('#bQuit').onclick=quitRun;$('#bTitle').onclick=toTitle;
 $('#bSound').onclick=toggleMute;$('#bSound2').onclick=toggleMute;
 document.addEventListener('visibilitychange',()=>{if(document.hidden)pause()});
 window.addEventListener('resize',resize);
