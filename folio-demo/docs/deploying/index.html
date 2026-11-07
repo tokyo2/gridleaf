@@ -1,0 +1,145 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v7.4.7"><style>:root{--bg:#F7F5F0;--surface:#FFFFFF;--tint:#ECF1EC;--text:#2F3A33;--muted:#59655D;--border:#E2DFD7;--border-strong:#7E8981;--accent:#4E6B58;--accent-text:#FFFFFF;--link:#476452;--focus:#4E6B58;color-scheme:light}:root[data-theme="dark"]{--bg:#161D19;--surface:#1E2722;--tint:#22302A;--text:#ECEFEA;--muted:#A8B4AC;--border:#2D3A33;--border-strong:#6F7F75;--accent:#9CC3A8;--accent-text:#13201A;--link:#A9CDB4;--focus:#9CC3A8;color-scheme:dark}@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#161D19;--surface:#1E2722;--tint:#22302A;--text:#ECEFEA;--muted:#A8B4AC;--border:#2D3A33;--border-strong:#6F7F75;--accent:#9CC3A8;--accent-text:#13201A;--link:#A9CDB4;--focus:#9CC3A8;color-scheme:dark}}</style><script>(function(){const fixedMode = "";
+
+      (() => {
+        const root = document.documentElement;
+        root.classList.replace('no-js', 'js');
+        let saved = null;
+        try {
+          saved = localStorage.getItem('folio-theme');
+        } catch (e) {}
+        const mode = saved === 'light' || saved === 'dark' ? saved : fixedMode;
+        if (mode) root.dataset.theme = mode;
+      })();
+    })();</script><title>Deploying (Docs) · Folio Demo Shop</title><meta name="description" content="Put the site online for free on Cloudflare Pages, Netlify or GitHub Pages, or upload it to any web host."><link rel="canonical" href="https://gridleafstudio.com/folio-demo/docs/deploying/"><meta property="og:site_name" content="Folio Demo Shop"><meta property="og:type" content="article"><meta property="og:title" content="Deploying (Docs)"><meta property="og:description" content="Put the site online for free on Cloudflare Pages, Netlify or GitHub Pages, or upload it to any web host."><meta property="og:url" content="https://gridleafstudio.com/folio-demo/docs/deploying/"><meta property="og:image" content="https://gridleafstudio.com/folio-demo/og-default.png"><meta property="og:locale" content="en_US"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Deploying (Docs)"><meta name="twitter:description" content="Put the site online for free on Cloudflare Pages, Netlify or GitHub Pages, or upload it to any web host."><meta name="twitter:image" content="https://gridleafstudio.com/folio-demo/og-default.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Deploying","description":"Put the site online for free on Cloudflare Pages, Netlify or GitHub Pages, or upload it to any web host.","mainEntityOfPage":"https://gridleafstudio.com/folio-demo/docs/deploying/","publisher":{"@type":"Organization","name":"Folio Demo Shop"}}</script><link rel="icon" href="/folio-demo/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/folio-demo/apple-touch-icon.png"><link rel="alternate" type="application/rss+xml" title="Folio Demo Shop blog" href="/folio-demo/rss.xml"><link rel="sitemap" href="/folio-demo/sitemap-index.xml"><link rel="stylesheet" href="/folio-demo/_astro/BaseLayout.C1uo0DIU.css"></head><body><a class="skip-link" href="#main">Skip to content</a><header class="site-header"><div class="container site-header__inner"><a class="brand" href="/folio-demo/">Folio Demo Shop</a><nav class="nav" id="site-nav" aria-label="Main"><ul><li><a href="/folio-demo/products/">Shop</a></li><li><a href="/folio-demo/blog/">Blog</a></li><li><a href="/folio-demo/pricing/">Pricing</a></li><li><a href="/folio-demo/docs/" aria-current="page">Docs</a></li><li><a href="/folio-demo/about/">About</a></li><li><a href="/folio-demo/contact/">Contact</a></li></ul></nav><a class="icon-btn" href="/folio-demo/search/" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m20 20-4.2-4.2"></path></svg></a><button type="button" class="icon-btn theme-toggle" id="theme-toggle" aria-label="Switch to dark theme"><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z"></path></svg><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"></path></svg></button><script>
+  (() => {
+    const btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+    const root = document.documentElement;
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    const current = () => root.dataset.theme || (media.matches ? 'dark' : 'light');
+    const label = () => {
+      const next = current() === 'dark' ? 'light' : 'dark';
+      btn.setAttribute('aria-label', `Switch to ${next} theme`);
+    };
+    label();
+    btn.addEventListener('click', () => {
+      const next = current() === 'dark' ? 'light' : 'dark';
+      root.dataset.theme = next;
+      try {
+        localStorage.setItem('folio-theme', next);
+      } catch (e) {}
+      label();
+    });
+    media.addEventListener('change', label);
+  })();
+</script><button type="button" class="icon-btn menu-btn" id="menu-btn" aria-expanded="false" aria-controls="site-nav" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button></div></header><script>
+  (() => {
+    const btn = document.getElementById('menu-btn');
+    const nav = document.getElementById('site-nav');
+    if (!btn || !nav) return;
+    const set = (open) => {
+      btn.setAttribute('aria-expanded', String(open));
+      if (open) nav.setAttribute('data-open', '');
+      else nav.removeAttribute('data-open');
+    };
+    btn.addEventListener('click', () => set(btn.getAttribute('aria-expanded') !== 'true'));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') {
+        set(false);
+        btn.focus();
+      }
+    });
+  })();
+</script><main id="main" tabindex="-1"><div class="container docs"><nav class="docs__nav" aria-label="Documentation"><p class="docs__group">Start here</p><ul><li><a href="/folio-demo/docs/getting-started/">Getting started</a></li><li><a href="/folio-demo/docs/configuration/">Configuration</a></li><li><a href="/folio-demo/docs/before-launch/">Before launch</a></li></ul><p class="docs__group">Content</p><ul><li><a href="/folio-demo/docs/products/">Products</a></li><li><a href="/folio-demo/docs/bundles/">Bundles</a></li><li><a href="/folio-demo/docs/blog/">Blog posts</a></li><li><a href="/folio-demo/docs/pages/">Pages and navigation</a></li></ul><p class="docs__group">Features</p><ul><li><a href="/folio-demo/docs/colours/">Colours, fonts and dark mode</a></li><li><a href="/folio-demo/docs/forms/">Newsletter and contact forms</a></li><li><a href="/folio-demo/docs/sections/">Testimonials, FAQ and pricing</a></li><li><a href="/folio-demo/docs/search-and-seo/">Search and SEO</a></li></ul><p class="docs__group">Launch</p><ul><li><a href="/folio-demo/docs/deploying/" aria-current="page">Deploying</a></li><li><a href="/folio-demo/docs/updating/">Updating and troubleshooting</a></li></ul></nav><article><p class="eyebrow">Launch</p><h1 style="font-size:var(--step-3)">Deploying</h1><p class="lead">Put the site online for free on Cloudflare Pages, Netlify or GitHub Pages, or upload it to any web host.</p><div class="prose"><p>Folio builds a static site: plain HTML, CSS and images in <code>dist/</code>. Any static host can serve it, and no server or database is needed.</p>
+<h2 id="before-you-deploy">Before you deploy</h2>
+<ol>
+<li>Set <code>site.url</code> to your real address and <code>site.demoMode</code> to <code>false</code>.</li>
+<li>Replace the demo products, posts, testimonials and images.</li>
+<li>Run <code>npm run build</code> and fix anything it reports.</li>
+<li>Put the project in a Git repository (GitHub, GitLab or Bitbucket) for automatic deploys.</li>
+</ol>
+<p>Every host needs the same three settings:</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Build command</td>
+<td><code>npm run build</code></td>
+</tr>
+<tr>
+<td>Output (publish) directory</td>
+<td><code>dist</code></td>
+</tr>
+<tr>
+<td>Node.js version</td>
+<td>22.23.4 or newer (the included <code>.nvmrc</code> pins 22.23.4)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="cloudflare-pages">Cloudflare Pages</h2>
+<ol>
+<li>In the Cloudflare dashboard, open <strong>Workers &amp; Pages</strong>, create an application and choose <strong>Pages</strong>, then connect your Git repository.</li>
+<li>Pick the <strong>Astro</strong> framework preset, or enter the build command and output directory above.</li>
+<li>If the build uses an older Node.js, add an environment variable <code>NODE_VERSION</code> with the value <code>22.23.4</code>.</li>
+<li>Deploy. Every push to your main branch deploys again.</li>
+</ol>
+<p>Without Git, choose <strong>Upload assets</strong> and drag in the <code>dist</code> folder after running <code>npm run build</code>.</p>
+<h2 id="netlify">Netlify</h2>
+<ol>
+<li>In Netlify, choose <strong>Add new site</strong> → <strong>Import an existing project</strong> and pick your repository.</li>
+<li>Build command <code>npm run build</code>, publish directory <code>dist</code>. Netlify reads <code>.nvmrc</code> for the Node.js version.</li>
+<li>Deploy.</li>
+</ol>
+<p>Without Git, drag the <code>dist</code> folder onto Netlify’s manual deploy page. For Netlify Forms, see <a href="../forms/">Forms</a>.</p>
+<h2 id="github-pages">GitHub Pages</h2>
+<p><strong>Check your plan first.</strong> On GitHub Free, Pages only works from a public repository, and your Folio licence doesn’t allow publishing Folio’s source code publicly. Use a private repository on a paid GitHub plan, or use Cloudflare Pages or Netlify, which deploy private repositories for free.</p>
+<ol>
+<li>In <code>folio.config.ts</code>, set <code>url</code> to <code>https://USERNAME.github.io</code> and <code>base</code> to <code>'/REPOSITORY'</code> (or leave <code>base</code> as <code>'/'</code> for a <code>USERNAME.github.io</code> repository or a custom domain).</li>
+<li>Create <code>.github/workflows/deploy.yml</code>:</li>
+</ol>
+<pre class="astro-code astro-code-themes github-light-default github-dark-default" style="--shiki-light:#1f2328;--shiki-dark:#e6edf3;--shiki-light-bg:#ffffff;--shiki-dark-bg:#0d1117; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="--shiki-light:#116329;--shiki-dark:#7EE787">name</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: </span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF">Deploy to GitHub Pages</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#0550AE;--shiki-dark:#79C0FF">on</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">:</span></span>
+<span class="line"><span style="--shiki-light:#116329;--shiki-dark:#7EE787">  push</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">:</span></span>
+<span class="line"><span style="--shiki-light:#116329;--shiki-dark:#7EE787">    branches</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: [</span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF">main</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">]</span></span>
+<span class="line"><span style="--shiki-light:#116329;--shiki-dark:#7EE787">  workflow_dispatch</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">:</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#116329;--shiki-dark:#7EE787">permissions</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">:</span></span>
+<span class="line"><span style="--shiki-light:#116329;--shiki-dark:#7EE787">  contents</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: </span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF">read</span></span>
+<span class="line"><span style="--shiki-light:#116329;--shiki-dark:#7EE787">  pages</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: </span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF">write</span></span>
+<span class="line"><span style="--shiki-light:#116329;--shiki-dark:#7EE787">  id-token</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: </span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF">write</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#116329;--shiki-dark:#7EE787">jobs</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">:</span></span>
+<span class="line"><span style="--shiki-light:#116329;--shiki-dark:#7EE787">  build</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">:</span></span>
+<span class="line"><span style="--shiki-light:#116329;--shiki-dark:#7EE787">    runs-on</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: </span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF">ubuntu-latest</span></span>
+<span class="line"><span style="--shiki-light:#116329;--shiki-dark:#7EE787">    steps</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">:</span></span>
+<span class="line"><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">      - </span><span style="--shiki-light:#116329;--shiki-dark:#7EE787">uses</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: </span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF">actions/checkout@v7</span></span>
+<span class="line"><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">      - </span><span style="--shiki-light:#116329;--shiki-dark:#7EE787">uses</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: </span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF">withastro/action@v6</span></span>
+<span class="line"><span style="--shiki-light:#116329;--shiki-dark:#7EE787">  deploy</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">:</span></span>
+<span class="line"><span style="--shiki-light:#116329;--shiki-dark:#7EE787">    needs</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: </span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF">build</span></span>
+<span class="line"><span style="--shiki-light:#116329;--shiki-dark:#7EE787">    runs-on</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: </span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF">ubuntu-latest</span></span>
+<span class="line"><span style="--shiki-light:#116329;--shiki-dark:#7EE787">    environment</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">:</span></span>
+<span class="line"><span style="--shiki-light:#116329;--shiki-dark:#7EE787">      name</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: </span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF">github-pages</span></span>
+<span class="line"><span style="--shiki-light:#116329;--shiki-dark:#7EE787">      url</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: </span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF">${{ steps.deployment.outputs.page_url }}</span></span>
+<span class="line"><span style="--shiki-light:#116329;--shiki-dark:#7EE787">    steps</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">:</span></span>
+<span class="line"><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">      - </span><span style="--shiki-light:#116329;--shiki-dark:#7EE787">id</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: </span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF">deployment</span></span>
+<span class="line"><span style="--shiki-light:#116329;--shiki-dark:#7EE787">        uses</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: </span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF">actions/deploy-pages@v5</span></span></code></pre>
+<ol start="3">
+<li>In the repository, open <strong>Settings</strong> → <strong>Pages</strong> and set <strong>Source</strong> to <strong>GitHub Actions</strong>.</li>
+<li>Push to <code>main</code>. The site appears at <code>https://USERNAME.github.io/REPOSITORY/</code>.</li>
+</ol>
+<h2 id="preview-deploys-with-environment-variables">Preview deploys with environment variables</h2>
+<p><code>SITE_URL</code> and <code>SITE_BASE</code>, when set as environment variables during the build, override <code>site.url</code> and <code>site.base</code> without editing the config. For example, a GitHub Pages workflow can set them in the build job:</p>
+<pre class="astro-code astro-code-themes github-light-default github-dark-default" style="--shiki-light:#1f2328;--shiki-dark:#e6edf3;--shiki-light-bg:#ffffff;--shiki-dark-bg:#0d1117; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="--shiki-light:#116329;--shiki-dark:#7EE787">    env</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">:</span></span>
+<span class="line"><span style="--shiki-light:#116329;--shiki-dark:#7EE787">      SITE_URL</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: </span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF">https://${{ github.repository_owner }}.github.io</span></span>
+<span class="line"><span style="--shiki-light:#116329;--shiki-dark:#7EE787">      SITE_BASE</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: </span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF">/${{ github.event.repository.name }}</span></span></code></pre>
+<h2 id="any-other-host">Any other host</h2>
+<p>Run <code>npm run build</code> and upload the contents of <code>dist/</code> to your host’s web folder (for example with SFTP).</p>
+<h2 id="custom-domain">Custom domain</h2>
+<p>Add the domain in your host’s dashboard and follow its DNS instructions, then set <code>site.url</code> to the new address and deploy again.</p>
+</div><nav class="post-nav" aria-label="Docs pages"><a href="/folio-demo/docs/search-and-seo/"><span>← Previous</span>Search and SEO</a><a class="next" href="/folio-demo/docs/updating/"><span>Next →</span>Updating and troubleshooting</a></nav></article><nav class="docs__toc" aria-label="On this page"><h2>On this page</h2><ul><li class="depth-2"><a href="#before-you-deploy">Before you deploy</a></li><li class="depth-2"><a href="#cloudflare-pages">Cloudflare Pages</a></li><li class="depth-2"><a href="#netlify">Netlify</a></li><li class="depth-2"><a href="#github-pages">GitHub Pages</a></li><li class="depth-2"><a href="#preview-deploys-with-environment-variables">Preview deploys with environment variables</a></li><li class="depth-2"><a href="#any-other-host">Any other host</a></li><li class="depth-2"><a href="#custom-domain">Custom domain</a></li></ul></nav></div></main><footer class="site-footer"><div class="container"><div class="site-footer__grid"><div class="site-footer__about"><p class="brand">Folio Demo Shop</p><p class="muted">Calm, useful digital products.</p></div><nav aria-label="Footer"><h2>Explore</h2><ul><li><a href="/folio-demo/products/">Shop</a></li><li><a href="/folio-demo/blog/">Blog</a></li><li><a href="/folio-demo/pricing/">Pricing</a></li><li><a href="/folio-demo/docs/">Docs</a></li><li><a href="/folio-demo/about/">About</a></li><li><a href="/folio-demo/contact/">Contact</a></li></ul></nav><div><h2>Follow</h2><ul><li><a href="https://www.instagram.com/" rel="me noopener">Instagram</a></li><li><a href="https://www.pinterest.com/" rel="me noopener">Pinterest</a></li><li><a href="https://www.youtube.com/" rel="me noopener">YouTube</a></li></ul></div></div><div class="site-footer__base"><p>© 2026 Folio Demo Shop. All rights reserved.</p><p><a href="/folio-demo/rss.xml">RSS</a> · <a href="/folio-demo/sitemap-index.xml">Sitemap</a> · Built with <a href="https://gridleafstudio.gumroad.com/l/folio">Folio</a></p></div></div></footer></body></html>

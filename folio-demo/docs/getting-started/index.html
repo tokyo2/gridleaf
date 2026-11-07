@@ -1,0 +1,133 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v7.4.7"><style>:root{--bg:#F7F5F0;--surface:#FFFFFF;--tint:#ECF1EC;--text:#2F3A33;--muted:#59655D;--border:#E2DFD7;--border-strong:#7E8981;--accent:#4E6B58;--accent-text:#FFFFFF;--link:#476452;--focus:#4E6B58;color-scheme:light}:root[data-theme="dark"]{--bg:#161D19;--surface:#1E2722;--tint:#22302A;--text:#ECEFEA;--muted:#A8B4AC;--border:#2D3A33;--border-strong:#6F7F75;--accent:#9CC3A8;--accent-text:#13201A;--link:#A9CDB4;--focus:#9CC3A8;color-scheme:dark}@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#161D19;--surface:#1E2722;--tint:#22302A;--text:#ECEFEA;--muted:#A8B4AC;--border:#2D3A33;--border-strong:#6F7F75;--accent:#9CC3A8;--accent-text:#13201A;--link:#A9CDB4;--focus:#9CC3A8;color-scheme:dark}}</style><script>(function(){const fixedMode = "";
+
+      (() => {
+        const root = document.documentElement;
+        root.classList.replace('no-js', 'js');
+        let saved = null;
+        try {
+          saved = localStorage.getItem('folio-theme');
+        } catch (e) {}
+        const mode = saved === 'light' || saved === 'dark' ? saved : fixedMode;
+        if (mode) root.dataset.theme = mode;
+      })();
+    })();</script><title>Getting started (Docs) · Folio Demo Shop</title><meta name="description" content="Install Folio and see it running on your computer in about five minutes."><link rel="canonical" href="https://gridleafstudio.com/folio-demo/docs/getting-started/"><meta property="og:site_name" content="Folio Demo Shop"><meta property="og:type" content="article"><meta property="og:title" content="Getting started (Docs)"><meta property="og:description" content="Install Folio and see it running on your computer in about five minutes."><meta property="og:url" content="https://gridleafstudio.com/folio-demo/docs/getting-started/"><meta property="og:image" content="https://gridleafstudio.com/folio-demo/og-default.png"><meta property="og:locale" content="en_US"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Getting started (Docs)"><meta name="twitter:description" content="Install Folio and see it running on your computer in about five minutes."><meta name="twitter:image" content="https://gridleafstudio.com/folio-demo/og-default.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Getting started","description":"Install Folio and see it running on your computer in about five minutes.","mainEntityOfPage":"https://gridleafstudio.com/folio-demo/docs/getting-started/","publisher":{"@type":"Organization","name":"Folio Demo Shop"}}</script><link rel="icon" href="/folio-demo/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/folio-demo/apple-touch-icon.png"><link rel="alternate" type="application/rss+xml" title="Folio Demo Shop blog" href="/folio-demo/rss.xml"><link rel="sitemap" href="/folio-demo/sitemap-index.xml"><link rel="stylesheet" href="/folio-demo/_astro/BaseLayout.C1uo0DIU.css"></head><body><a class="skip-link" href="#main">Skip to content</a><header class="site-header"><div class="container site-header__inner"><a class="brand" href="/folio-demo/">Folio Demo Shop</a><nav class="nav" id="site-nav" aria-label="Main"><ul><li><a href="/folio-demo/products/">Shop</a></li><li><a href="/folio-demo/blog/">Blog</a></li><li><a href="/folio-demo/pricing/">Pricing</a></li><li><a href="/folio-demo/docs/" aria-current="page">Docs</a></li><li><a href="/folio-demo/about/">About</a></li><li><a href="/folio-demo/contact/">Contact</a></li></ul></nav><a class="icon-btn" href="/folio-demo/search/" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m20 20-4.2-4.2"></path></svg></a><button type="button" class="icon-btn theme-toggle" id="theme-toggle" aria-label="Switch to dark theme"><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z"></path></svg><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"></path></svg></button><script>
+  (() => {
+    const btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+    const root = document.documentElement;
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    const current = () => root.dataset.theme || (media.matches ? 'dark' : 'light');
+    const label = () => {
+      const next = current() === 'dark' ? 'light' : 'dark';
+      btn.setAttribute('aria-label', `Switch to ${next} theme`);
+    };
+    label();
+    btn.addEventListener('click', () => {
+      const next = current() === 'dark' ? 'light' : 'dark';
+      root.dataset.theme = next;
+      try {
+        localStorage.setItem('folio-theme', next);
+      } catch (e) {}
+      label();
+    });
+    media.addEventListener('change', label);
+  })();
+</script><button type="button" class="icon-btn menu-btn" id="menu-btn" aria-expanded="false" aria-controls="site-nav" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button></div></header><script>
+  (() => {
+    const btn = document.getElementById('menu-btn');
+    const nav = document.getElementById('site-nav');
+    if (!btn || !nav) return;
+    const set = (open) => {
+      btn.setAttribute('aria-expanded', String(open));
+      if (open) nav.setAttribute('data-open', '');
+      else nav.removeAttribute('data-open');
+    };
+    btn.addEventListener('click', () => set(btn.getAttribute('aria-expanded') !== 'true'));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') {
+        set(false);
+        btn.focus();
+      }
+    });
+  })();
+</script><main id="main" tabindex="-1"><div class="container docs"><nav class="docs__nav" aria-label="Documentation"><p class="docs__group">Start here</p><ul><li><a href="/folio-demo/docs/getting-started/" aria-current="page">Getting started</a></li><li><a href="/folio-demo/docs/configuration/">Configuration</a></li><li><a href="/folio-demo/docs/before-launch/">Before launch</a></li></ul><p class="docs__group">Content</p><ul><li><a href="/folio-demo/docs/products/">Products</a></li><li><a href="/folio-demo/docs/bundles/">Bundles</a></li><li><a href="/folio-demo/docs/blog/">Blog posts</a></li><li><a href="/folio-demo/docs/pages/">Pages and navigation</a></li></ul><p class="docs__group">Features</p><ul><li><a href="/folio-demo/docs/colours/">Colours, fonts and dark mode</a></li><li><a href="/folio-demo/docs/forms/">Newsletter and contact forms</a></li><li><a href="/folio-demo/docs/sections/">Testimonials, FAQ and pricing</a></li><li><a href="/folio-demo/docs/search-and-seo/">Search and SEO</a></li></ul><p class="docs__group">Launch</p><ul><li><a href="/folio-demo/docs/deploying/">Deploying</a></li><li><a href="/folio-demo/docs/updating/">Updating and troubleshooting</a></li></ul></nav><article><p class="eyebrow">Start here</p><h1 style="font-size:var(--step-3)">Getting started</h1><p class="lead">Install Folio and see it running on your computer in about five minutes.</p><div class="prose"><p>Folio is a theme for <a href="https://astro.build">Astro</a>, a framework that turns Markdown files and components into a fast static website. You do not need to know Astro to use Folio: most changes happen in one config file and in Markdown files.</p>
+<h2 id="what-you-need">What you need</h2>
+<ul>
+<li><strong>Node.js 22.23.4 or newer.</strong> Astro 7.4.2 and later require it; Node.js 24 also meets the requirement (Folio is tested on 22.23.4). Check with <code>node --version</code>. Get it from <a href="https://nodejs.org">nodejs.org</a>.</li>
+<li>A code editor such as VS Code (free).</li>
+<li>A terminal (Terminal on macOS, PowerShell or Windows Terminal on Windows).</li>
+</ul>
+<h2 id="install">Install</h2>
+<ol>
+<li>Unzip the Folio download and open the folder in your editor.</li>
+<li>In a terminal inside that folder, install the dependencies:</li>
+</ol>
+<pre class="astro-code astro-code-themes github-light-default github-dark-default" style="--shiki-light:#1f2328;--shiki-dark:#e6edf3;--shiki-light-bg:#ffffff;--shiki-dark-bg:#0d1117; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="--shiki-light:#953800;--shiki-dark:#FFA657">npm</span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF"> install</span></span></code></pre>
+<ol start="3">
+<li>Start the development server:</li>
+</ol>
+<pre class="astro-code astro-code-themes github-light-default github-dark-default" style="--shiki-light:#1f2328;--shiki-dark:#e6edf3;--shiki-light-bg:#ffffff;--shiki-dark-bg:#0d1117; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="--shiki-light:#953800;--shiki-dark:#FFA657">npm</span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF"> run</span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF"> dev</span></span></code></pre>
+<ol start="4">
+<li>Open the address it prints (usually <code>http://localhost:4321</code>). The demo shop appears. Edits you save show up in the browser straight away.</li>
+</ol>
+<h2 id="the-folders-you-will-use">The folders you will use</h2>
+<table>
+<thead>
+<tr>
+<th>Folder or file</th>
+<th>What it holds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>src/folio.config.ts</code></td>
+<td>Site name, URL, colours, navigation, socials, forms: start here</td>
+</tr>
+<tr>
+<td><code>src/content/products/</code></td>
+<td>One Markdown file per product</td>
+</tr>
+<tr>
+<td><code>src/content/blog/</code></td>
+<td>One Markdown or MDX file per post</td>
+</tr>
+<tr>
+<td><code>src/content/docs/</code></td>
+<td>These docs pages (shown when <code>docs.enabled</code> is <code>true</code>; reuse them for your own help centre)</td>
+</tr>
+<tr>
+<td><code>src/content/*.yaml</code></td>
+<td>Testimonials, FAQ and pricing tiers</td>
+</tr>
+<tr>
+<td><code>src/assets/</code></td>
+<td>Images that Astro optimises (product and post images)</td>
+</tr>
+<tr>
+<td><code>public/</code></td>
+<td>Files copied as they are (favicon, social image, downloads)</td>
+</tr>
+<tr>
+<td><code>src/pages/</code></td>
+<td>One file per page or route; <code>about.md</code> is plain Markdown</td>
+</tr>
+<tr>
+<td><code>src/optional/</code></td>
+<td>Docs, pricing and search pages, built only when switched on in the config</td>
+</tr>
+<tr>
+<td><code>src/styles/global.css</code></td>
+<td>All styles, with fonts and sizes at the top</td>
+</tr>
+</tbody>
+</table>
+<h2 id="build-the-site">Build the site</h2>
+<pre class="astro-code astro-code-themes github-light-default github-dark-default" style="--shiki-light:#1f2328;--shiki-dark:#e6edf3;--shiki-light-bg:#ffffff;--shiki-dark-bg:#0d1117; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="--shiki-light:#953800;--shiki-dark:#FFA657">npm</span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF"> run</span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF"> build</span></span></code></pre>
+<p>This writes the finished website to <code>dist/</code>. Preview it with <code>npm run preview</code>, then follow <a href="../deploying/">Deploying</a> to put it online.</p>
+<h2 id="next-steps">Next steps</h2>
+<ol>
+<li>Open <code>src/folio.config.ts</code> and change the site name, URL and email (<a href="../configuration/">Configuration</a>).</li>
+<li>Replace the demo products with your own (<a href="../products/">Products</a>).</li>
+<li>Before you publish, work through <a href="../before-launch/">Before launch</a>.</li>
+</ol>
+</div><nav class="post-nav" aria-label="Docs pages"><a class="next" href="/folio-demo/docs/configuration/"><span>Next →</span>Configuration</a></nav></article><nav class="docs__toc" aria-label="On this page"><h2>On this page</h2><ul><li class="depth-2"><a href="#what-you-need">What you need</a></li><li class="depth-2"><a href="#install">Install</a></li><li class="depth-2"><a href="#the-folders-you-will-use">The folders you will use</a></li><li class="depth-2"><a href="#build-the-site">Build the site</a></li><li class="depth-2"><a href="#next-steps">Next steps</a></li></ul></nav></div></main><footer class="site-footer"><div class="container"><div class="site-footer__grid"><div class="site-footer__about"><p class="brand">Folio Demo Shop</p><p class="muted">Calm, useful digital products.</p></div><nav aria-label="Footer"><h2>Explore</h2><ul><li><a href="/folio-demo/products/">Shop</a></li><li><a href="/folio-demo/blog/">Blog</a></li><li><a href="/folio-demo/pricing/">Pricing</a></li><li><a href="/folio-demo/docs/">Docs</a></li><li><a href="/folio-demo/about/">About</a></li><li><a href="/folio-demo/contact/">Contact</a></li></ul></nav><div><h2>Follow</h2><ul><li><a href="https://www.instagram.com/" rel="me noopener">Instagram</a></li><li><a href="https://www.pinterest.com/" rel="me noopener">Pinterest</a></li><li><a href="https://www.youtube.com/" rel="me noopener">YouTube</a></li></ul></div></div><div class="site-footer__base"><p>© 2026 Folio Demo Shop. All rights reserved.</p><p><a href="/folio-demo/rss.xml">RSS</a> · <a href="/folio-demo/sitemap-index.xml">Sitemap</a> · Built with <a href="https://gridleafstudio.gumroad.com/l/folio">Folio</a></p></div></div></footer></body></html>

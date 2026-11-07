@@ -1,0 +1,126 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v7.4.7"><style>:root{--bg:#F7F5F0;--surface:#FFFFFF;--tint:#ECF1EC;--text:#2F3A33;--muted:#59655D;--border:#E2DFD7;--border-strong:#7E8981;--accent:#4E6B58;--accent-text:#FFFFFF;--link:#476452;--focus:#4E6B58;color-scheme:light}:root[data-theme="dark"]{--bg:#161D19;--surface:#1E2722;--tint:#22302A;--text:#ECEFEA;--muted:#A8B4AC;--border:#2D3A33;--border-strong:#6F7F75;--accent:#9CC3A8;--accent-text:#13201A;--link:#A9CDB4;--focus:#9CC3A8;color-scheme:dark}@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#161D19;--surface:#1E2722;--tint:#22302A;--text:#ECEFEA;--muted:#A8B4AC;--border:#2D3A33;--border-strong:#6F7F75;--accent:#9CC3A8;--accent-text:#13201A;--link:#A9CDB4;--focus:#9CC3A8;color-scheme:dark}}</style><script>(function(){const fixedMode = "";
+
+      (() => {
+        const root = document.documentElement;
+        root.classList.replace('no-js', 'js');
+        let saved = null;
+        try {
+          saved = localStorage.getItem('folio-theme');
+        } catch (e) {}
+        const mode = saved === 'light' || saved === 'dark' ? saved : fixedMode;
+        if (mode) root.dataset.theme = mode;
+      })();
+    })();</script><title>Blog posts (Docs) · Folio Demo Shop</title><meta name="description" content="Write posts in Markdown or MDX, with tags, RSS, reading time and pagination built in."><link rel="canonical" href="https://gridleafstudio.com/folio-demo/docs/blog/"><meta property="og:site_name" content="Folio Demo Shop"><meta property="og:type" content="article"><meta property="og:title" content="Blog posts (Docs)"><meta property="og:description" content="Write posts in Markdown or MDX, with tags, RSS, reading time and pagination built in."><meta property="og:url" content="https://gridleafstudio.com/folio-demo/docs/blog/"><meta property="og:image" content="https://gridleafstudio.com/folio-demo/og-default.png"><meta property="og:locale" content="en_US"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Blog posts (Docs)"><meta name="twitter:description" content="Write posts in Markdown or MDX, with tags, RSS, reading time and pagination built in."><meta name="twitter:image" content="https://gridleafstudio.com/folio-demo/og-default.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Blog posts","description":"Write posts in Markdown or MDX, with tags, RSS, reading time and pagination built in.","mainEntityOfPage":"https://gridleafstudio.com/folio-demo/docs/blog/","publisher":{"@type":"Organization","name":"Folio Demo Shop"}}</script><link rel="icon" href="/folio-demo/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/folio-demo/apple-touch-icon.png"><link rel="alternate" type="application/rss+xml" title="Folio Demo Shop blog" href="/folio-demo/rss.xml"><link rel="sitemap" href="/folio-demo/sitemap-index.xml"><link rel="stylesheet" href="/folio-demo/_astro/BaseLayout.C1uo0DIU.css"></head><body><a class="skip-link" href="#main">Skip to content</a><header class="site-header"><div class="container site-header__inner"><a class="brand" href="/folio-demo/">Folio Demo Shop</a><nav class="nav" id="site-nav" aria-label="Main"><ul><li><a href="/folio-demo/products/">Shop</a></li><li><a href="/folio-demo/blog/">Blog</a></li><li><a href="/folio-demo/pricing/">Pricing</a></li><li><a href="/folio-demo/docs/" aria-current="page">Docs</a></li><li><a href="/folio-demo/about/">About</a></li><li><a href="/folio-demo/contact/">Contact</a></li></ul></nav><a class="icon-btn" href="/folio-demo/search/" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m20 20-4.2-4.2"></path></svg></a><button type="button" class="icon-btn theme-toggle" id="theme-toggle" aria-label="Switch to dark theme"><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z"></path></svg><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"></path></svg></button><script>
+  (() => {
+    const btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+    const root = document.documentElement;
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    const current = () => root.dataset.theme || (media.matches ? 'dark' : 'light');
+    const label = () => {
+      const next = current() === 'dark' ? 'light' : 'dark';
+      btn.setAttribute('aria-label', `Switch to ${next} theme`);
+    };
+    label();
+    btn.addEventListener('click', () => {
+      const next = current() === 'dark' ? 'light' : 'dark';
+      root.dataset.theme = next;
+      try {
+        localStorage.setItem('folio-theme', next);
+      } catch (e) {}
+      label();
+    });
+    media.addEventListener('change', label);
+  })();
+</script><button type="button" class="icon-btn menu-btn" id="menu-btn" aria-expanded="false" aria-controls="site-nav" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button></div></header><script>
+  (() => {
+    const btn = document.getElementById('menu-btn');
+    const nav = document.getElementById('site-nav');
+    if (!btn || !nav) return;
+    const set = (open) => {
+      btn.setAttribute('aria-expanded', String(open));
+      if (open) nav.setAttribute('data-open', '');
+      else nav.removeAttribute('data-open');
+    };
+    btn.addEventListener('click', () => set(btn.getAttribute('aria-expanded') !== 'true'));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') {
+        set(false);
+        btn.focus();
+      }
+    });
+  })();
+</script><main id="main" tabindex="-1"><div class="container docs"><nav class="docs__nav" aria-label="Documentation"><p class="docs__group">Start here</p><ul><li><a href="/folio-demo/docs/getting-started/">Getting started</a></li><li><a href="/folio-demo/docs/configuration/">Configuration</a></li><li><a href="/folio-demo/docs/before-launch/">Before launch</a></li></ul><p class="docs__group">Content</p><ul><li><a href="/folio-demo/docs/products/">Products</a></li><li><a href="/folio-demo/docs/bundles/">Bundles</a></li><li><a href="/folio-demo/docs/blog/" aria-current="page">Blog posts</a></li><li><a href="/folio-demo/docs/pages/">Pages and navigation</a></li></ul><p class="docs__group">Features</p><ul><li><a href="/folio-demo/docs/colours/">Colours, fonts and dark mode</a></li><li><a href="/folio-demo/docs/forms/">Newsletter and contact forms</a></li><li><a href="/folio-demo/docs/sections/">Testimonials, FAQ and pricing</a></li><li><a href="/folio-demo/docs/search-and-seo/">Search and SEO</a></li></ul><p class="docs__group">Launch</p><ul><li><a href="/folio-demo/docs/deploying/">Deploying</a></li><li><a href="/folio-demo/docs/updating/">Updating and troubleshooting</a></li></ul></nav><article><p class="eyebrow">Content</p><h1 style="font-size:var(--step-3)">Blog posts</h1><p class="lead">Write posts in Markdown or MDX, with tags, RSS, reading time and pagination built in.</p><div class="prose"><p>Posts live in <code>src/content/blog/</code>. The file name becomes the address: <code>launch-checklist.md</code> is published at <code>/blog/launch-checklist/</code>.</p>
+<pre class="astro-code astro-code-themes github-light-default github-dark-default" style="--shiki-light:#1f2328;--shiki-dark:#e6edf3;--shiki-light-bg:#ffffff;--shiki-dark-bg:#0d1117; overflow-x: auto;" tabindex="0" data-language="md"><code><span class="line"><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">---</span></span>
+<span class="line"><span style="--shiki-light:#116329;--shiki-dark:#7EE787">title</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: </span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF">A simple launch checklist</span></span>
+<span class="line"><span style="--shiki-light:#116329;--shiki-dark:#7EE787">description</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: </span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF">Twelve small checks that catch most launch-day problems.</span></span>
+<span class="line"><span style="--shiki-light:#116329;--shiki-dark:#7EE787">pubDate</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: </span><span style="--shiki-light:#0550AE;--shiki-dark:#79C0FF">2026-09-30</span></span>
+<span class="line"><span style="--shiki-light:#116329;--shiki-dark:#7EE787">updatedDate</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: </span><span style="--shiki-light:#0550AE;--shiki-dark:#79C0FF">2026-10-05</span></span>
+<span class="line"><span style="--shiki-light:#116329;--shiki-dark:#7EE787">heroImage</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: </span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF">../../assets/blog/launch-checklist.png</span></span>
+<span class="line"><span style="--shiki-light:#116329;--shiki-dark:#7EE787">heroAlt</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: </span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF">Calm blue circles on a pale background</span></span>
+<span class="line"><span style="--shiki-light:#116329;--shiki-dark:#7EE787">tags</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: [</span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF">launch</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">, </span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF">selling</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">]</span></span>
+<span class="line"><span style="--shiki-light:#116329;--shiki-dark:#7EE787">author</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: </span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF">Sam Rivera</span></span>
+<span class="line"><span style="--shiki-light:#116329;--shiki-dark:#7EE787">draft</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: </span><span style="--shiki-light:#0550AE;--shiki-dark:#79C0FF">false</span></span>
+<span class="line"><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">---</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">Your post starts here.</span></span></code></pre>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>title</code>, <code>description</code></td>
+<td>yes</td>
+<td>Description is used on cards, in RSS and as the meta description</td>
+</tr>
+<tr>
+<td><code>pubDate</code></td>
+<td>yes</td>
+<td><code>YYYY-MM-DD</code></td>
+</tr>
+<tr>
+<td><code>updatedDate</code></td>
+<td>no</td>
+<td>Shows “Updated” and is used in structured data</td>
+</tr>
+<tr>
+<td><code>heroImage</code>, <code>heroAlt</code></td>
+<td>no</td>
+<td>Image in <code>src/assets/</code></td>
+</tr>
+<tr>
+<td><code>tags</code></td>
+<td>no</td>
+<td>Each tag gets a page at <code>/blog/tags/&lt;tag&gt;/</code></td>
+</tr>
+<tr>
+<td><code>author</code></td>
+<td>no</td>
+<td>Defaults to <code>site.author</code></td>
+</tr>
+<tr>
+<td><code>draft</code></td>
+<td>no</td>
+<td><code>true</code> hides the post from the live site (it still shows in <code>npm run dev</code>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="mdx-components-inside-posts">MDX: components inside posts</h2>
+<p>Rename a post to <code>.mdx</code> to use components. Folio includes a <code>Callout</code>:</p>
+<pre class="astro-code astro-code-themes github-light-default github-dark-default" style="--shiki-light:#1f2328;--shiki-dark:#e6edf3;--shiki-light-bg:#ffffff;--shiki-dark-bg:#0d1117; overflow-x: auto;" tabindex="0" data-language="mdx"><code><span class="line"><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">import Callout from '../../components/Callout.astro';</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">&lt;Callout title="Good to know"&gt;This is highlighted.&lt;/Callout&gt;</span></span></code></pre>
+<h2 id="what-you-get-automatically">What you get automatically</h2>
+<ul>
+<li>Reading time, previous and next links, and tag links on every post.</li>
+<li>Pagination: <code>blog.postsPerPage</code> posts per page (<code>/blog/</code>, <code>/blog/2/</code>…).</li>
+<li>An RSS feed at <code>/rss.xml</code>.</li>
+<li><code>BlogPosting</code> structured data and Open Graph tags.</li>
+<li>Code blocks highlighted in both light and dark mode.</li>
+</ul>
+</div><nav class="post-nav" aria-label="Docs pages"><a href="/folio-demo/docs/bundles/"><span>← Previous</span>Bundles</a><a class="next" href="/folio-demo/docs/pages/"><span>Next →</span>Pages and navigation</a></nav></article><nav class="docs__toc" aria-label="On this page"><h2>On this page</h2><ul><li class="depth-2"><a href="#mdx-components-inside-posts">MDX: components inside posts</a></li><li class="depth-2"><a href="#what-you-get-automatically">What you get automatically</a></li></ul></nav></div></main><footer class="site-footer"><div class="container"><div class="site-footer__grid"><div class="site-footer__about"><p class="brand">Folio Demo Shop</p><p class="muted">Calm, useful digital products.</p></div><nav aria-label="Footer"><h2>Explore</h2><ul><li><a href="/folio-demo/products/">Shop</a></li><li><a href="/folio-demo/blog/">Blog</a></li><li><a href="/folio-demo/pricing/">Pricing</a></li><li><a href="/folio-demo/docs/">Docs</a></li><li><a href="/folio-demo/about/">About</a></li><li><a href="/folio-demo/contact/">Contact</a></li></ul></nav><div><h2>Follow</h2><ul><li><a href="https://www.instagram.com/" rel="me noopener">Instagram</a></li><li><a href="https://www.pinterest.com/" rel="me noopener">Pinterest</a></li><li><a href="https://www.youtube.com/" rel="me noopener">YouTube</a></li></ul></div></div><div class="site-footer__base"><p>© 2026 Folio Demo Shop. All rights reserved.</p><p><a href="/folio-demo/rss.xml">RSS</a> · <a href="/folio-demo/sitemap-index.xml">Sitemap</a> · Built with <a href="https://gridleafstudio.gumroad.com/l/folio">Folio</a></p></div></div></footer></body></html>

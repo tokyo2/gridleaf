@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://gridleafstudio.com/folio-demo/sitemap-index.xml

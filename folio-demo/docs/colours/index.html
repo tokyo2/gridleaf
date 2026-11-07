@@ -1,0 +1,131 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v7.4.7"><style>:root{--bg:#F7F5F0;--surface:#FFFFFF;--tint:#ECF1EC;--text:#2F3A33;--muted:#59655D;--border:#E2DFD7;--border-strong:#7E8981;--accent:#4E6B58;--accent-text:#FFFFFF;--link:#476452;--focus:#4E6B58;color-scheme:light}:root[data-theme="dark"]{--bg:#161D19;--surface:#1E2722;--tint:#22302A;--text:#ECEFEA;--muted:#A8B4AC;--border:#2D3A33;--border-strong:#6F7F75;--accent:#9CC3A8;--accent-text:#13201A;--link:#A9CDB4;--focus:#9CC3A8;color-scheme:dark}@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#161D19;--surface:#1E2722;--tint:#22302A;--text:#ECEFEA;--muted:#A8B4AC;--border:#2D3A33;--border-strong:#6F7F75;--accent:#9CC3A8;--accent-text:#13201A;--link:#A9CDB4;--focus:#9CC3A8;color-scheme:dark}}</style><script>(function(){const fixedMode = "";
+
+      (() => {
+        const root = document.documentElement;
+        root.classList.replace('no-js', 'js');
+        let saved = null;
+        try {
+          saved = localStorage.getItem('folio-theme');
+        } catch (e) {}
+        const mode = saved === 'light' || saved === 'dark' ? saved : fixedMode;
+        if (mode) root.dataset.theme = mode;
+      })();
+    })();</script><title>Colours, fonts and dark mode (Docs) · Folio Demo Shop</title><meta name="description" content="Pick a preset, override any colour, check contrast and change fonts."><link rel="canonical" href="https://gridleafstudio.com/folio-demo/docs/colours/"><meta property="og:site_name" content="Folio Demo Shop"><meta property="og:type" content="article"><meta property="og:title" content="Colours, fonts and dark mode (Docs)"><meta property="og:description" content="Pick a preset, override any colour, check contrast and change fonts."><meta property="og:url" content="https://gridleafstudio.com/folio-demo/docs/colours/"><meta property="og:image" content="https://gridleafstudio.com/folio-demo/og-default.png"><meta property="og:locale" content="en_US"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Colours, fonts and dark mode (Docs)"><meta name="twitter:description" content="Pick a preset, override any colour, check contrast and change fonts."><meta name="twitter:image" content="https://gridleafstudio.com/folio-demo/og-default.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Colours, fonts and dark mode","description":"Pick a preset, override any colour, check contrast and change fonts.","mainEntityOfPage":"https://gridleafstudio.com/folio-demo/docs/colours/","publisher":{"@type":"Organization","name":"Folio Demo Shop"}}</script><link rel="icon" href="/folio-demo/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/folio-demo/apple-touch-icon.png"><link rel="alternate" type="application/rss+xml" title="Folio Demo Shop blog" href="/folio-demo/rss.xml"><link rel="sitemap" href="/folio-demo/sitemap-index.xml"><link rel="stylesheet" href="/folio-demo/_astro/BaseLayout.C1uo0DIU.css"></head><body><a class="skip-link" href="#main">Skip to content</a><header class="site-header"><div class="container site-header__inner"><a class="brand" href="/folio-demo/">Folio Demo Shop</a><nav class="nav" id="site-nav" aria-label="Main"><ul><li><a href="/folio-demo/products/">Shop</a></li><li><a href="/folio-demo/blog/">Blog</a></li><li><a href="/folio-demo/pricing/">Pricing</a></li><li><a href="/folio-demo/docs/" aria-current="page">Docs</a></li><li><a href="/folio-demo/about/">About</a></li><li><a href="/folio-demo/contact/">Contact</a></li></ul></nav><a class="icon-btn" href="/folio-demo/search/" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m20 20-4.2-4.2"></path></svg></a><button type="button" class="icon-btn theme-toggle" id="theme-toggle" aria-label="Switch to dark theme"><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z"></path></svg><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"></path></svg></button><script>
+  (() => {
+    const btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+    const root = document.documentElement;
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    const current = () => root.dataset.theme || (media.matches ? 'dark' : 'light');
+    const label = () => {
+      const next = current() === 'dark' ? 'light' : 'dark';
+      btn.setAttribute('aria-label', `Switch to ${next} theme`);
+    };
+    label();
+    btn.addEventListener('click', () => {
+      const next = current() === 'dark' ? 'light' : 'dark';
+      root.dataset.theme = next;
+      try {
+        localStorage.setItem('folio-theme', next);
+      } catch (e) {}
+      label();
+    });
+    media.addEventListener('change', label);
+  })();
+</script><button type="button" class="icon-btn menu-btn" id="menu-btn" aria-expanded="false" aria-controls="site-nav" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button></div></header><script>
+  (() => {
+    const btn = document.getElementById('menu-btn');
+    const nav = document.getElementById('site-nav');
+    if (!btn || !nav) return;
+    const set = (open) => {
+      btn.setAttribute('aria-expanded', String(open));
+      if (open) nav.setAttribute('data-open', '');
+      else nav.removeAttribute('data-open');
+    };
+    btn.addEventListener('click', () => set(btn.getAttribute('aria-expanded') !== 'true'));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') {
+        set(false);
+        btn.focus();
+      }
+    });
+  })();
+</script><main id="main" tabindex="-1"><div class="container docs"><nav class="docs__nav" aria-label="Documentation"><p class="docs__group">Start here</p><ul><li><a href="/folio-demo/docs/getting-started/">Getting started</a></li><li><a href="/folio-demo/docs/configuration/">Configuration</a></li><li><a href="/folio-demo/docs/before-launch/">Before launch</a></li></ul><p class="docs__group">Content</p><ul><li><a href="/folio-demo/docs/products/">Products</a></li><li><a href="/folio-demo/docs/bundles/">Bundles</a></li><li><a href="/folio-demo/docs/blog/">Blog posts</a></li><li><a href="/folio-demo/docs/pages/">Pages and navigation</a></li></ul><p class="docs__group">Features</p><ul><li><a href="/folio-demo/docs/colours/" aria-current="page">Colours, fonts and dark mode</a></li><li><a href="/folio-demo/docs/forms/">Newsletter and contact forms</a></li><li><a href="/folio-demo/docs/sections/">Testimonials, FAQ and pricing</a></li><li><a href="/folio-demo/docs/search-and-seo/">Search and SEO</a></li></ul><p class="docs__group">Launch</p><ul><li><a href="/folio-demo/docs/deploying/">Deploying</a></li><li><a href="/folio-demo/docs/updating/">Updating and troubleshooting</a></li></ul></nav><article><p class="eyebrow">Features</p><h1 style="font-size:var(--step-3)">Colours, fonts and dark mode</h1><p class="lead">Pick a preset, override any colour, check contrast and change fonts.</p><div class="prose"><h2 id="presets">Presets</h2>
+<p>Folio has three colour presets, each with a light and a dark scheme:</p>
+<table>
+<thead>
+<tr>
+<th>Preset</th>
+<th>Feel</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sage</code></td>
+<td>Calm green on warm paper (the demo)</td>
+</tr>
+<tr>
+<td><code>clay</code></td>
+<td>Warm terracotta on cream</td>
+</tr>
+<tr>
+<td><code>ocean</code></td>
+<td>Deep blue on cool grey</td>
+</tr>
+</tbody>
+</table>
+<pre class="astro-code astro-code-themes github-light-default github-dark-default" style="--shiki-light:#1f2328;--shiki-dark:#e6edf3;--shiki-light-bg:#ffffff;--shiki-dark-bg:#0d1117; overflow-x: auto;" tabindex="0" data-language="ts"><code><span class="line"><span style="--shiki-light:#953800;--shiki-dark:#FFA657">theme</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: { </span><span style="--shiki-light:#953800;--shiki-dark:#FFA657">preset</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: </span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF">'clay'</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">, </span><span style="--shiki-light:#953800;--shiki-dark:#FFA657">colors</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: {}, </span><span style="--shiki-light:#953800;--shiki-dark:#FFA657">defaultMode</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: </span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF">'system'</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">, </span><span style="--shiki-light:#953800;--shiki-dark:#FFA657">showToggle</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: </span><span style="--shiki-light:#0550AE;--shiki-dark:#79C0FF">true</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3"> },</span></span></code></pre>
+<h2 id="override-single-colours">Override single colours</h2>
+<p>Anything in <code>theme.colors</code> is merged on top of the preset:</p>
+<pre class="astro-code astro-code-themes github-light-default github-dark-default" style="--shiki-light:#1f2328;--shiki-dark:#e6edf3;--shiki-light-bg:#ffffff;--shiki-dark-bg:#0d1117; overflow-x: auto;" tabindex="0" data-language="ts"><code><span class="line"><span style="--shiki-light:#953800;--shiki-dark:#FFA657">colors</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: {</span></span>
+<span class="line"><span style="--shiki-light:#953800;--shiki-dark:#FFA657">  light</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: { </span><span style="--shiki-light:#953800;--shiki-dark:#FFA657">accent</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: </span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF">'#3D5A80'</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">, </span><span style="--shiki-light:#953800;--shiki-dark:#FFA657">link</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: </span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF">'#3D5A80'</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3"> },</span></span>
+<span class="line"><span style="--shiki-light:#953800;--shiki-dark:#FFA657">  dark</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: { </span><span style="--shiki-light:#953800;--shiki-dark:#FFA657">accent</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: </span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF">'#9DB7D9'</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">, </span><span style="--shiki-light:#953800;--shiki-dark:#FFA657">accentText</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: </span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF">'#0E1A28'</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">, </span><span style="--shiki-light:#953800;--shiki-dark:#FFA657">link</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">: </span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF">'#A9C3E3'</span><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3"> },</span></span>
+<span class="line"><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">},</span></span></code></pre>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Used for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bg</code>, <code>surface</code>, <code>tint</code></td>
+<td>Page background, cards, tinted sections</td>
+</tr>
+<tr>
+<td><code>text</code>, <code>muted</code></td>
+<td>Main and secondary text</td>
+</tr>
+<tr>
+<td><code>border</code>, <code>borderStrong</code></td>
+<td>Hairlines; form fields and outlines</td>
+</tr>
+<tr>
+<td><code>accent</code>, <code>accentText</code></td>
+<td>Buttons and the text on them</td>
+</tr>
+<tr>
+<td><code>link</code>, <code>focus</code></td>
+<td>Links and accent text; keyboard focus ring</td>
+</tr>
+</tbody>
+</table>
+<h2 id="check-contrast">Check contrast</h2>
+<p>Every preset meets WCAG 2.2 AA contrast. After changing colours, run:</p>
+<pre class="astro-code astro-code-themes github-light-default github-dark-default" style="--shiki-light:#1f2328;--shiki-dark:#e6edf3;--shiki-light-bg:#ffffff;--shiki-dark-bg:#0d1117; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="--shiki-light:#953800;--shiki-dark:#FFA657">npm</span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF"> run</span><span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF"> check:contrast</span></span></code></pre>
+<p>It checks 15 colour pairs in both schemes (body text, links, buttons, form borders and focus rings) and names any pair that is too faint.</p>
+<h2 id="dark-mode">Dark mode</h2>
+<ul>
+<li><code>defaultMode: 'system'</code> follows the visitor’s device setting.</li>
+<li><code>'light'</code> or <code>'dark'</code> sets the first-visit default.</li>
+<li>The header switch remembers the visitor’s choice. Hide it with <code>showToggle: false</code>.</li>
+</ul>
+<p>The theme is applied before the page paints, so there is no flash of the wrong colours.</p>
+<h2 id="fonts">Fonts</h2>
+<p>Folio uses <strong>DM Serif Display</strong> for headings and <strong>Inter</strong> for text. Both are open-source (SIL Open Font License) and served from your own site, with no font CDN.</p>
+<p>To change them, install another font from <a href="https://fontsource.org">Fontsource</a>, import it at the top of <code>src/layouts/BaseLayout.astro</code>, and change the variables at the top of <code>src/styles/global.css</code>:</p>
+<pre class="astro-code astro-code-themes github-light-default github-dark-default" style="--shiki-light:#1f2328;--shiki-dark:#e6edf3;--shiki-light-bg:#ffffff;--shiki-dark-bg:#0d1117; overflow-x: auto;" tabindex="0" data-language="css"><code><span class="line"><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">--font-body: 'Inter Variable', system-ui, sans-serif;</span></span>
+<span class="line"><span style="--shiki-light:#1F2328;--shiki-dark:#E6EDF3">--font-display: 'DM Serif Display', Georgia, serif;</span></span></code></pre>
+<p>The same block sets the corner radius, page width and spacing.</p>
+</div><nav class="post-nav" aria-label="Docs pages"><a href="/folio-demo/docs/pages/"><span>← Previous</span>Pages and navigation</a><a class="next" href="/folio-demo/docs/forms/"><span>Next →</span>Newsletter and contact forms</a></nav></article><nav class="docs__toc" aria-label="On this page"><h2>On this page</h2><ul><li class="depth-2"><a href="#presets">Presets</a></li><li class="depth-2"><a href="#override-single-colours">Override single colours</a></li><li class="depth-2"><a href="#check-contrast">Check contrast</a></li><li class="depth-2"><a href="#dark-mode">Dark mode</a></li><li class="depth-2"><a href="#fonts">Fonts</a></li></ul></nav></div></main><footer class="site-footer"><div class="container"><div class="site-footer__grid"><div class="site-footer__about"><p class="brand">Folio Demo Shop</p><p class="muted">Calm, useful digital products.</p></div><nav aria-label="Footer"><h2>Explore</h2><ul><li><a href="/folio-demo/products/">Shop</a></li><li><a href="/folio-demo/blog/">Blog</a></li><li><a href="/folio-demo/pricing/">Pricing</a></li><li><a href="/folio-demo/docs/">Docs</a></li><li><a href="/folio-demo/about/">About</a></li><li><a href="/folio-demo/contact/">Contact</a></li></ul></nav><div><h2>Follow</h2><ul><li><a href="https://www.instagram.com/" rel="me noopener">Instagram</a></li><li><a href="https://www.pinterest.com/" rel="me noopener">Pinterest</a></li><li><a href="https://www.youtube.com/" rel="me noopener">YouTube</a></li></ul></div></div><div class="site-footer__base"><p>© 2026 Folio Demo Shop. All rights reserved.</p><p><a href="/folio-demo/rss.xml">RSS</a> · <a href="/folio-demo/sitemap-index.xml">Sitemap</a> · Built with <a href="https://gridleafstudio.gumroad.com/l/folio">Folio</a></p></div></div></footer></body></html>
