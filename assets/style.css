@@ -63,6 +63,7 @@ td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
 .bigcal td{height:58px;padding:3px;font-size:11px}.bigcal td b{font-size:13px}.bigcal small{font-size:8.5px;overflow-wrap:anywhere}}
 .port{max-width:440px;width:100%;margin:0 auto}
 @media print{header.site,footer.site,.noprint{display:none}}
+.trivia{padding-left:26px}.trivia li{margin:0 0 16px}.trivia li p{margin:0}.trivia details summary{cursor:pointer;color:var(--accent);font-size:14px;font-weight:600}
 
 .aff{margin-top:36px}.aff h2{margin-top:0;font-size:clamp(22px,2.6vw,28px)}.aff>p{color:var(--muted);margin:.3em 0}
 .aff-list{list-style:none;padding:0;margin:16px 0 0;display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
