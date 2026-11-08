@@ -17,12 +17,23 @@
     hard: "Words go across, down and diagonally, forwards and backwards."
   };
   var LETTERS = "AABCDEEEFGHIIJKLMNOOPQRSTTUUVWXYZ";   // a little vowel-heavy so the grid looks natural
-  // wordsearch.py's list plus a few more (the line after it). Only checked where a blocked word uses at least one
-  // random filler letter, so the visitor's own words never trigger it. site/wsmaker.py checks this covers wordsearch.py.
-  var BLOCK = ["FUCK", "SHIT", "CUNT", "DICK", "COCK", "PISS", "TWAT", "SLUT", "WHORE", "NIGGER", "NIGGA", "BITCH", "PORN",
+  // The same list as products/puzzles/wordsearch.py BLOCK (site/wsmaker.py checks it covers that list). Only checked
+  // where a blocked word uses at least one random filler letter, so the visitor's own words never trigger it.
+  var BLOCK = [
+    "FUCK", "SHIT", "CUNT", "DICK", "COCK", "PISS", "TWAT", "SLUT", "WHORE", "NIGGER", "NIGGA", "BITCH", "PORN",
     "RAPE", "PUSSY", "JIZZ", "WANK", "SPIC", "KIKE", "CHINK", "GOOK", "DYKE", "FAG", "SEX", "CUM", "ASS", "KKK",
-    "NAZI", "BOOB", "ANAL", "TITS", "HOMO", "DAMN", "CRAP",
-    "TIT", "WOP", "FUK", "FUC", "COON", "PENIS"];
+    "NAZI", "BOOB", "ANAL", "TITS", "HOMO", "DAMN", "CRAP", "PEE", "POO", "POOP", "TURD", "FART", "BUTT", "PUKE",
+    "BARF", "WEE", "JAP", "WOP", "COON", "PAKI", "NIG", "NEGRO", "NIGRA", "JIGABOO", "SAMBO", "DARKIE", "DARKY",
+    "PICKANINNY", "WIGGER", "HONKY", "HONKIE", "SPICK", "SPIK", "BEANER", "WETBACK", "DAGO", "WOG", "KRAUT",
+    "POLACK", "PIKEY", "GYPO", "GYP", "KYKE", "HEEB", "HYMIE", "YID", "RAGHEAD", "TOWELHEAD", "MUZZIE", "KAFIR",
+    "KAFFIR", "COOLIE", "ZIPPERHEAD", "INJUN", "REDSKIN", "SQUAW", "ABBO", "BOONG", "HITLER", "HEIL", "FAGGOT",
+    "LESBO", "LEZZIE", "TRANNY", "SHEMALE", "POOFTER", "RETARD", "TARD", "SPAZ", "SPASTIC", "MONG", "TIT", "FUK",
+    "FUC", "FCK", "FCUK", "PHUK", "PHUCK", "KUNT", "SHAT", "ARSE", "BASTARD", "BOLLOCKS", "BOLLOX", "BUGGER",
+    "TOSSER", "PRICK", "DOUCHE", "DAMMIT", "HELL", "FECK", "MOFO", "WTF", "STFU", "KYS", "PENIS", "SEXY", "NUDE",
+    "XXX", "ORGY", "ORGASM", "HORNY", "EROTIC", "MILF", "DILDO", "CLIT", "VAGINA", "VULVA", "SCROTUM", "TESTICLE",
+    "SEMEN", "SPERM", "SPUNK", "BONER", "ERECTION", "PUBE", "PUBIC", "NIPPLE", "ANUS", "RECTUM", "HOOKER", "PIMP",
+    "SKANK", "THOT", "SLAG", "SHAG", "MINGE", "PECKER", "BLOWJOB", "HANDJOB", "RIMJOB", "JERKOFF", "QUEEF", "SODOMY",
+    "PEDO", "PAEDO", "INCEST", "RAPIST", "MOLEST"];
   var SIZES = [10, 12, 15, 18, 20];
   var LP_SIZES = [10, 12, 15];
   var MAX_WORDS = { 10: 10, 12: 15, 15: 22, 18: 30, 20: 36 };
